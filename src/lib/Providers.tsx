@@ -5,6 +5,7 @@ import React from "react";
 import { Provider } from "react-redux";
 import StyledComponentsRegistry from "./AntdRegistry";
 import { ConfigProvider } from "antd";
+import { primaryColor } from "@/utils/color";
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
   return (

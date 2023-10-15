@@ -1,16 +1,19 @@
 import { Button, Menu } from "antd";
 import Link from "next/link";
 import styles from "./navbar.module.css";
-import { MenuOutlined, CarFilled } from "@ant-design/icons";
+import { MenuOutlined, HomeFilled } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { primaryColor } from "@/utils/color";
 import { removeFromLocalStorage } from "@/utils/local-store";
 import { LOCAL_STORAGE_KEYS } from "@/constants/localStorageKeys";
-import { isLoggedIn } from "@/services/auth.service";
+import { getUserInfo, isLoggedIn } from "@/services/auth.service";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+
+  const router = useRouter();
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -18,9 +21,12 @@ const Navbar = () => {
 
   const handleSignout = () => {
     removeFromLocalStorage(LOCAL_STORAGE_KEYS.ACCESS_TOKEN);
+    router.push("/");
   };
 
   const isAlreadyLoggedIn = isLoggedIn();
+
+  const { role } = getUserInfo() as any;
 
   useEffect(() => {
     if (isAlreadyLoggedIn) {
@@ -46,8 +52,8 @@ const Navbar = () => {
           </div>
         )}
       </>
-      <Menu.Item icon={<CarFilled />} className={styles["menu-item"]}>
-        <Link href="/about">About</Link>
+      <Menu.Item icon={<HomeFilled />} className={styles["menu-item"]}>
+        <Link href="/">Home</Link>
       </Menu.Item>
       <Menu.SubMenu
         className={styles["menu-item"]}
@@ -64,6 +70,12 @@ const Navbar = () => {
       <Menu.Item className={styles["menu-item"]}>
         <Link href="/contact">Contact</Link>
       </Menu.Item>
+
+      {isUserLoggedIn && (
+        <Menu.Item className={styles["menu-item"]}>
+          <Link href={`/dashboard/${role}`}>Dashboard</Link>
+        </Menu.Item>
+      )}
 
       {isUserLoggedIn ? (
         <Menu.Item className={styles["menu-item"]}>

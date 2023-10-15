@@ -16,7 +16,17 @@ const userApi = baseApi.injectEndpoints({
       },
       invalidatesTags: [tagTypes.USER],
     }),
+    userProfile: build.query({
+      query: () => ({
+        url: `${USER_API}/profile`,
+        method: "GET",
+      }),
+      transformResponse: ({ data }) => {
+        return data;
+      },
+      providesTags: [tagTypes.USER],
+    }),
   }),
 });
 
-export const { useCreatePassengerMutation } = userApi;
+export const { useCreatePassengerMutation, useUserProfileQuery } = userApi;
