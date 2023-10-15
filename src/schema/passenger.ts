@@ -5,25 +5,26 @@ export const passengerRegistrationSchema = yup.object().shape({
   passenger: yup.object().shape({
     name: yup.object().shape({
       firstName: yup.string().required("First Name is required"),
+      middleName: yup.string().optional(),
       lastName: yup.string().required("Last Name is required"),
     }),
     gender: yup.string().required("Gender is required"),
-    dateOfBirth: yup
-      .string()
-      .matches(
-        /^\d{4}-\d{2}-\d{2}$/,
-        "Date of Birth should be in the format YYYY-MM-DD"
-      )
-      .required("Date of Birth is required"),
+    dateOfBirth: yup.string(),
     email: yup
       .string()
       .email("Invalid email format")
       .required("Email is required"),
-    contactNo: yup.string().required("Phone is required"),
-    emergencyContactNo: yup.string().required("Emergency contact is required"),
+    contactNo: yup
+      .string()
+      .required("Phone is required")
+      .length(11, "Contact number must be 11 characters"),
+    emergencyContactNo: yup
+      .string()
+      .required("Emergency contact is required")
+      .length(11, "Emergency contact number must be 11 characters"),
     presentAddress: yup.string().required("Present Address is required"),
     permanentAddress: yup.string().required("Permanent Address is required"),
     bloodGroup: yup.string().required("Blood Group is required"),
-    profileImage: yup.string(),
+    profileImage: yup.string().optional(),
   }),
 });

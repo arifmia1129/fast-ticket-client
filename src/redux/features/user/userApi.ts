@@ -1,15 +1,15 @@
 import { tagTypes } from "@/redux/constant/tagTypes";
 import { baseApi } from "../api/apiSlice";
 
-const AUTH_API = "/auth";
+const USER_API = "/user";
 
-const authApi = baseApi.injectEndpoints({
+const userApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
-    userLogin: build.mutation({
-      query: (loginData) => ({
-        url: `${AUTH_API}/login`,
+    createPassenger: build.mutation({
+      query: (passengerData) => ({
+        url: `${USER_API}/create-passenger`,
         method: "POST",
-        data: loginData,
+        data: passengerData,
       }),
       transformResponse: ({ data }) => {
         return data;
@@ -19,4 +19,4 @@ const authApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useUserLoginMutation } = authApi;
+export const { useCreatePassengerMutation } = userApi;

@@ -7,48 +7,40 @@ import FormSelectField from "@/components/Forms/FormSelectField";
 import FormTextArea from "@/components/Forms/FormTextArea";
 import { superAdminItems } from "@/constants/breadCrumbItem";
 import { bloodGroupOptions, genderOptions } from "@/constants/global";
-import {
-  useAddAdminMutation,
-  useGetAdminQuery,
-} from "@/redux/features/admin/adminApi";
-import { useGetManagementDepartmentQuery } from "@/redux/features/managementDepartment/managementDepartmentApi";
+
 import { adminSchema } from "@/schema/admin";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Button, Col, Row, message } from "antd";
 import UMBreadCrumb from "./UMBreadCrumb";
 import { passengerRegistrationSchema } from "@/schema/passenger";
+import { useCreatePassengerMutation } from "@/redux/features/user/userApi";
 
 const CreateAdminPage = () => {
-  const { data, isLoading } = useGetManagementDepartmentQuery({});
+  const [createPassenger] = useCreatePassengerMutation();
 
-  const [addAdmin] = useAddAdminMutation();
+  const onSubmit = async (info: any) => {
+    message.loading("Creating...");
 
-  const manageDepartmentOptions = data?.department?.map((department: any) => {
-    return {
-      label: department.title,
-      value: department._id,
-    };
-  });
+    if (info.dateOfBirth) {
+      return message.error("Date of birth is required");
+    }
 
-  const onSubmit = async (data: any) => {
-    const file = data["file"];
-
-    delete data["file"];
-
-    const info = JSON.stringify(data);
-
-    //console.log(data);
-
-    const formData = new FormData();
-
-    formData.append("file", file);
-    formData.append("data", info);
-    message.loading("Creating passenger...");
     try {
-      addAdmin(formData);
-      message.success("Admin created successfully!");
-    } catch (error) {
-      console.error(error);
+      const { data, error } = (await createPassenger(info)) as any;
+
+      if (data?._id) {
+        message.success("Successfully created passenger account");
+      } else {
+        const { message: errMsg, path } = error?.data?.errorMessages[0] || {};
+
+        const errMessage = errMsg
+          ? `${path} ${errMsg}`
+          : "Something went wrong";
+
+        message.error(errMessage);
+      }
+    } catch (error: any) {
+      message.error(error?.message || "Something went wrong");
     }
   };
 
@@ -192,17 +184,7 @@ const CreateAdminPage = () => {
                 />
               </div>
             </Col>
-            <Col style={{ margin: "15px 0" }} className="gutter-row" span={8}>
-              <div>
-                <FormInput
-                  name="passenger.designation"
-                  type="text"
-                  size="large"
-                  label="Designation"
-                  placeholder="Write designation"
-                />
-              </div>
-            </Col>
+
             <Col style={{ margin: "15px 0" }} className="gutter-row" span={8}>
               <div>
                 <FormDatePicker

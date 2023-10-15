@@ -1,33 +1,5 @@
 export enum tagTypes {
   USER = "user",
-  MANAGEMENT_DEPARTMENT = "management-department",
-  ADMIN = "admin",
-  ACADEMIC_FACULTY = "academic-faculty",
-  ACADEMIC_DEPARTMENT = "academic-department",
-  ACADEMIC_SEMESTER = "academic-semester",
-  FACULTY = "faculty",
-  STUDENT = "student",
-  BUILDING = "building",
-  ROOM = "room",
-  COURSE = "course",
-  SEMESTER_REGISTRATION = "semester-registration",
-  OFFERED_COURSE = "offered-course",
-  OFFERED_COURSE_SECTION = "offered-course-section",
 }
 
-export const tagTypeList = [
-  tagTypes.USER,
-  tagTypes.MANAGEMENT_DEPARTMENT,
-  tagTypes.ADMIN,
-  tagTypes.ACADEMIC_FACULTY,
-  tagTypes.ACADEMIC_DEPARTMENT,
-  tagTypes.ACADEMIC_SEMESTER,
-  tagTypes.FACULTY,
-  tagTypes.STUDENT,
-  tagTypes.BUILDING,
-  tagTypes.ROOM,
-  tagTypes.COURSE,
-  tagTypes.SEMESTER_REGISTRATION,
-  tagTypes.OFFERED_COURSE,
-  tagTypes.OFFERED_COURSE_SECTION,
-];
+export const tagTypeList = [tagTypes.USER];

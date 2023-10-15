@@ -39,8 +39,6 @@ axiosInstance.interceptors.response.use(
   async function (error) {
     const config = error.config;
 
-    console.log(config);
-
     if (error.response.status === 403 && !config.sent) {
       config.sent = true;
       const res = await createNewAccessToken();

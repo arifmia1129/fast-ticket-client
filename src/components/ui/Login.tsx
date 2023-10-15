@@ -32,17 +32,25 @@ const Login = () => {
     }
   }, [isUserLoggedIn]);
 
-  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+  const onSubmit: SubmitHandler<FormValues> = async (credentials) => {
     message.loading("Processing...");
     try {
-      const res = await userLogin(data);
-      if ("data" in res && res.data.data.accessToken) {
-        storeToken(res?.data?.data?.accessToken);
+      const { data, error } = (await userLogin(credentials)) as any;
+
+      if (data && data?.accessToken) {
+        storeToken(data?.accessToken);
         router.push("/");
         message.success("Successfully logged in");
+      } else {
+        const { message: errMsg, path } = error?.data?.errorMessages[0] || {};
+
+        const errMessage = errMsg
+          ? `${path} ${errMsg}`
+          : "Something went wrong";
+
+        message.error(errMessage);
       }
     } catch (error: any) {
-      //console.log(error.response.data.message);
       message.error(error?.message || "Something went wrong");
     }
   };

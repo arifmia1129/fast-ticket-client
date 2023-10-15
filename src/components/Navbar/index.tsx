@@ -2,32 +2,50 @@ import { Button, Menu } from "antd";
 import Link from "next/link";
 import styles from "./navbar.module.css";
 import { MenuOutlined, CarFilled } from "@ant-design/icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { primaryColor } from "@/utils/color";
+import { removeFromLocalStorage } from "@/utils/local-store";
+import { LOCAL_STORAGE_KEYS } from "@/constants/localStorageKeys";
+import { isLoggedIn } from "@/services/auth.service";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
+  const handleSignout = () => {
+    removeFromLocalStorage(LOCAL_STORAGE_KEYS.ACCESS_TOKEN);
+  };
+
+  const isAlreadyLoggedIn = isLoggedIn();
+
+  useEffect(() => {
+    if (isAlreadyLoggedIn) {
+      setIsUserLoggedIn(true);
+    }
+  }, [isUserLoggedIn]);
+
   const items = (
     <>
-      {!isMobileMenuOpen && (
-        <div style={{ margin: "0 20px" }}>
-          <h2
-            style={{
-              margin: "0 20vw 0 10vw",
-              color: primaryColor,
-              fontSize: 30,
-              fontWeight: "bold",
-            }}
-          >
-            Fast Ticket
-          </h2>
-        </div>
-      )}
+      <>
+        {!isMobileMenuOpen && (
+          <div style={{ margin: "0 20px" }}>
+            <h2
+              style={{
+                margin: "0 20vw 0 10vw",
+                color: primaryColor,
+                fontSize: 30,
+                fontWeight: "bold",
+              }}
+            >
+              Fast Ticket
+            </h2>
+          </div>
+        )}
+      </>
       <Menu.Item icon={<CarFilled />} className={styles["menu-item"]}>
         <Link href="/about">About</Link>
       </Menu.Item>
@@ -47,9 +65,22 @@ const Navbar = () => {
         <Link href="/contact">Contact</Link>
       </Menu.Item>
 
-      <Menu.Item className={styles["menu-item"]}>
-        <Link href="/login">Login</Link>
-      </Menu.Item>
+      {isUserLoggedIn ? (
+        <Menu.Item className={styles["menu-item"]}>
+          <Button
+            onClick={() => {
+              handleSignout();
+              setIsUserLoggedIn(false);
+            }}
+          >
+            Log out
+          </Button>
+        </Menu.Item>
+      ) : (
+        <Menu.Item className={styles["menu-item"]}>
+          <Link href="/login">Login</Link>
+        </Menu.Item>
+      )}
     </>
   );
 

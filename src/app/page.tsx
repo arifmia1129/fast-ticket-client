@@ -11,59 +11,62 @@ const RootHome = () => {
       <MainLayout>
         <div style={{ padding: "0 10px" }}>
           <HomeCarousel />
-          <Header
-            style={{
-              backgroundColor: primaryColor,
-              height: "100%",
-              padding: 20,
-            }}
-          >
-            <Row
-              justify={"center"}
-              align={"middle"}
+          <Row justify="center">
+            <Header
               style={{
+                backgroundColor: primaryColor,
                 height: "100%",
+                padding: 20,
+                width: "96vw",
               }}
-              gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}
             >
-              <Col className="gutter-row" lg={8} xs={24}>
-                <div style={{ color: "#fff" }}>
-                  <div style={{ lineHeight: "1.2" }}>
-                    <h1 style={{ textAlign: "center", fontSize: "44px" }}>
-                      250 Million+
-                    </h1>
-                    <p style={{ textAlign: "center", fontSize: "20px" }}>
-                      Tickets Sold
-                    </p>
+              <Row
+                justify={"center"}
+                align={"middle"}
+                style={{
+                  height: "100%",
+                }}
+                gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}
+              >
+                <Col className="gutter-row" lg={8} xs={24}>
+                  <div style={{ color: "#fff" }}>
+                    <div style={{ lineHeight: "1.2" }}>
+                      <h1 style={{ textAlign: "center", fontSize: "44px" }}>
+                        250 Million+
+                      </h1>
+                      <p style={{ textAlign: "center", fontSize: "20px" }}>
+                        Tickets Sold
+                      </p>
+                    </div>
                   </div>
-                </div>
-              </Col>
-              <Col className="gutter-row" lg={8} xs={24}>
-                <div style={{ color: "#fff" }}>
-                  <div style={{ lineHeight: "1.2" }}>
-                    <h1 style={{ textAlign: "center", fontSize: "44px" }}>
-                      300+
-                    </h1>
-                    <p style={{ textAlign: "center", fontSize: "20px" }}>
-                      Routes
-                    </p>
+                </Col>
+                <Col className="gutter-row" lg={8} xs={24}>
+                  <div style={{ color: "#fff" }}>
+                    <div style={{ lineHeight: "1.2" }}>
+                      <h1 style={{ textAlign: "center", fontSize: "44px" }}>
+                        300+
+                      </h1>
+                      <p style={{ textAlign: "center", fontSize: "20px" }}>
+                        Routes
+                      </p>
+                    </div>
                   </div>
-                </div>
-              </Col>
-              <Col className="gutter-row" lg={8} xs={24}>
-                <div style={{ color: "#fff" }}>
-                  <div style={{ lineHeight: "1.2" }}>
-                    <h1 style={{ textAlign: "center", fontSize: "44px" }}>
-                      10 Million+
-                    </h1>
-                    <p style={{ textAlign: "center", fontSize: "20px" }}>
-                      Happy Users
-                    </p>
+                </Col>
+                <Col className="gutter-row" lg={8} xs={24}>
+                  <div style={{ color: "#fff" }}>
+                    <div style={{ lineHeight: "1.2" }}>
+                      <h1 style={{ textAlign: "center", fontSize: "44px" }}>
+                        10 Million+
+                      </h1>
+                      <p style={{ textAlign: "center", fontSize: "20px" }}>
+                        Happy Users
+                      </p>
+                    </div>
                   </div>
-                </div>
-              </Col>
-            </Row>
-          </Header>
+                </Col>
+              </Row>
+            </Header>
+          </Row>
         </div>
       </MainLayout>
     </>
