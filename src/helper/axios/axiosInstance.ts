@@ -3,9 +3,10 @@ import { createNewAccessToken, storeToken } from "@/services/auth.service";
 import { ICustomResponse } from "@/types";
 import { getFromLocalStorage } from "@/utils/local-store";
 import axios from "axios";
+import { getBaseUrl } from "../config/envConfig";
 
 const axiosInstance = axios.create({
-  baseURL: "https://some-domain.com/api/",
+  baseURL: getBaseUrl(),
   timeout: 1000,
   headers: {
     "Content-Type": "application/json",

@@ -18,7 +18,7 @@ const Navbar = () => {
         <div style={{ margin: "0 20px" }}>
           <h2
             style={{
-              margin: "0 400px 0 200px",
+              margin: "0 20vw 0 10vw",
               color: primaryColor,
               fontSize: 30,
               fontWeight: "bold",
@@ -45,6 +45,10 @@ const Navbar = () => {
       </Menu.SubMenu>
       <Menu.Item className={styles["menu-item"]}>
         <Link href="/contact">Contact</Link>
+      </Menu.Item>
+
+      <Menu.Item className={styles["menu-item"]}>
+        <Link href="/login">Login</Link>
       </Menu.Item>
     </>
   );

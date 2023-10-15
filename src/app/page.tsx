@@ -14,8 +14,8 @@ const RootHome = () => {
           <Header
             style={{
               backgroundColor: primaryColor,
-              height: 120,
-              padding: 10,
+              height: "100%",
+              padding: 20,
             }}
           >
             <Row
@@ -26,7 +26,7 @@ const RootHome = () => {
               }}
               gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}
             >
-              <Col className="gutter-row" span={8}>
+              <Col className="gutter-row" lg={8} xs={24}>
                 <div style={{ color: "#fff" }}>
                   <div style={{ lineHeight: "1.2" }}>
                     <h1 style={{ textAlign: "center", fontSize: "44px" }}>
@@ -38,7 +38,7 @@ const RootHome = () => {
                   </div>
                 </div>
               </Col>
-              <Col className="gutter-row" span={8}>
+              <Col className="gutter-row" lg={8} xs={24}>
                 <div style={{ color: "#fff" }}>
                   <div style={{ lineHeight: "1.2" }}>
                     <h1 style={{ textAlign: "center", fontSize: "44px" }}>
@@ -50,7 +50,7 @@ const RootHome = () => {
                   </div>
                 </div>
               </Col>
-              <Col className="gutter-row" span={8}>
+              <Col className="gutter-row" lg={8} xs={24}>
                 <div style={{ color: "#fff" }}>
                   <div style={{ lineHeight: "1.2" }}>
                     <h1 style={{ textAlign: "center", fontSize: "44px" }}>
