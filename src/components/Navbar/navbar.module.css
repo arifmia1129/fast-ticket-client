@@ -1,0 +1,44 @@
+/* Custom Navbar Styles */
+.navbar {
+  padding: 10px;
+  background-color: #fff;
+}
+.menu-item {
+  margin-right: 20px;
+}
+
+.mobile-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.company-name {
+  font-size: 24px;
+}
+
+.hide-icon {
+  display: none;
+}
+
+/* Mobile-Only Styles */
+@media (max-width: 768px) {
+  .mobile-only {
+    display: block;
+  }
+
+  .desktop-only {
+    display: none;
+  }
+}
+
+/* Desktop-Only Styles */
+@media (min-width: 769px) {
+  .mobile-only {
+    display: none;
+  }
+
+  .desktop-only {
+    display: block;
+  }
+}
