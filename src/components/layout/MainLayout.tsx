@@ -16,14 +16,29 @@ const MainLayout = ({ children }: any) => {
         style={{
           backgroundColor: "#00b96b",
           display: "flex",
+          height: 40,
           justifyContent: "center",
+          alignItems: "center",
         }}
       >
-        <div style={{ display: "flex" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <Link href={"/"}>
             <p style={{ color: "#fff", margin: "0 10px" }}>Contact us</p>
           </Link>
-          <div style={{ display: "flex", margin: "0 10px" }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              margin: "0 10px",
+            }}
+          >
             <PhoneFilled style={{ color: "#fff" }} rotate={90} />
             <p style={{ color: "#fff", margin: "0 2px" }}>16248</p>
           </div>

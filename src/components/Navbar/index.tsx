@@ -1,8 +1,9 @@
 import { Button, Menu } from "antd";
 import Link from "next/link";
 import styles from "./navbar.module.css";
-import { MenuOutlined } from "@ant-design/icons";
+import { MenuOutlined, CarFilled } from "@ant-design/icons";
 import { useState } from "react";
+import { primaryColor } from "@/utils/color";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -15,10 +16,19 @@ const Navbar = () => {
     <>
       {!isMobileMenuOpen && (
         <div style={{ margin: "0 20px" }}>
-          <h2>Fast Ticket</h2>
+          <h2
+            style={{
+              margin: "0 400px 0 200px",
+              color: primaryColor,
+              fontSize: 30,
+              fontWeight: "bold",
+            }}
+          >
+            Fast Ticket
+          </h2>
         </div>
       )}
-      <Menu.Item className={styles["menu-item"]}>
+      <Menu.Item icon={<CarFilled />} className={styles["menu-item"]}>
         <Link href="/about">About</Link>
       </Menu.Item>
       <Menu.SubMenu
@@ -66,8 +76,6 @@ const Navbar = () => {
           <Menu
             style={{
               borderWidth: 0,
-              display: "flex",
-              justifyContent: "center",
             }}
             mode="horizontal"
           >
