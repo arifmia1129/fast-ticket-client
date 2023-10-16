@@ -34,6 +34,10 @@ import {
   useDeletePassengerMutation,
   useGetPassengerQuery,
 } from "@/redux/features/passenger/passengerApi";
+import {
+  useDeleteBusOwnerMutation,
+  useGetBusOwnerQuery,
+} from "@/redux/features/busOwner/busOwnerApi";
 
 const ManagePassengerPage = ({ searchParams }: any) => {
   //   const { data: adminData } = useGetAdminByIdQuery(params.id);
@@ -66,11 +70,11 @@ const ManagePassengerPage = ({ searchParams }: any) => {
     fetchQuery["date"] = date;
   }
 
-  const { data: fetchedTripData, isLoading } = useGetPassengerQuery({
+  const { data: fetchedData, isLoading } = useGetBusOwnerQuery({
     ...fetchQuery,
   });
 
-  const { data, meta } = fetchedTripData || {};
+  const { data, meta } = fetchedData || {};
 
   const { data: profile } = useUserProfileQuery(undefined);
 
@@ -92,7 +96,7 @@ const ManagePassengerPage = ({ searchParams }: any) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [deleteId, setDeleteId] = useState("");
 
-  const [deletePassenger] = useDeletePassengerMutation();
+  const [deleteBusOwner] = useDeleteBusOwnerMutation();
 
   const showModal: any = () => {
     setIsModalOpen(true);
@@ -103,10 +107,10 @@ const ManagePassengerPage = ({ searchParams }: any) => {
     message.loading("Deleteing...");
 
     try {
-      const { data, error } = (await deletePassenger(deleteId)) as any;
+      const { data, error } = (await deleteBusOwner(deleteId)) as any;
 
       if (data?._id) {
-        message.success("Successfully deleted the passenger");
+        message.success("Successfully deleted the bus owner");
       } else {
         const { message: errMsg, path } = error?.data?.errorMessages[0] || {};
 
@@ -175,7 +179,7 @@ const ManagePassengerPage = ({ searchParams }: any) => {
       render: function (data: any) {
         return (
           <>
-            <Link href={`/dashboard/admin/manage-passenger/edit/${data._id}`}>
+            <Link href={`/dashboard/admin/manage-bus_owner/edit/${data._id}`}>
               <Button
                 style={{
                   margin: "0px 5px",
@@ -223,11 +227,37 @@ const ManagePassengerPage = ({ searchParams }: any) => {
     setSortBy(field);
     setSortOrder(order === "ascend" ? "asc" : "desc");
   };
+  const handleResetQuery = () => {
+    setSortOrder("");
+    setSortBy("");
+    setSearchTerm("");
+  };
 
   return (
     <div>
       <UMBreadCrumb items={items} />
-
+      <ActionBar title="Manage Bus Owner">
+        <Input
+          value={searchTerm}
+          placeholder="Search anything..."
+          style={{ maxWidth: "300px" }}
+          type="text"
+          size="large"
+          onChange={(event: any) => setSearchTerm(event.target.value)}
+        />
+        <div style={{ margin: "5px 0" }}>
+          <Link href="/dashboard/admin/manage-bus_owner/create">
+            <Button style={{ margin: "0 5px" }} type="primary">
+              Add Bus Owner
+            </Button>
+          </Link>
+          {(searchTerm || sortBy || sortOrder) && (
+            <Button onClick={handleResetQuery} type="primary">
+              <ReloadOutlined />
+            </Button>
+          )}
+        </div>
+      </ActionBar>
       <div style={{ margin: "10px 0" }}>
         <UMTable
           loading={isLoading}
@@ -243,8 +273,8 @@ const ManagePassengerPage = ({ searchParams }: any) => {
           handleOk={handleOk}
           handleCancel={handleCancel}
           isModalOpen={isModalOpen}
-          title="Are you sure you want to delete the passenger?"
-          description="If you delete the passenger. You can't acccess to this passenger later"
+          title="Are you sure you want to delete the bus owner?"
+          description="If you delete the bus owner. You can't acccess to this bus owner later"
         />
       ) : null}
     </div>

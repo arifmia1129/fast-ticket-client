@@ -1,8 +1,8 @@
 import * as yup from "yup";
 
-export const passengerRegistrationSchema = yup.object().shape({
+export const busOwnerRegistrationSchema = yup.object().shape({
   password: yup.string().required("Password is required").min(6).max(32),
-  passenger: yup.object().shape({
+  busOwner: yup.object().shape({
     name: yup.object().shape({
       firstName: yup.string().required("First Name is required"),
       middleName: yup.string().optional(),
@@ -26,5 +26,8 @@ export const passengerRegistrationSchema = yup.object().shape({
     permanentAddress: yup.string().required("Permanent Address is required"),
     bloodGroup: yup.string().required("Blood Group is required"),
     profileImage: yup.string().optional(),
+    companyName: yup.string().required("Company Name is required"),
+    designation: yup.string().required("Designation is required"),
+    tradeLicenseNo: yup.string().required("Trade License No is required"),
   }),
 });

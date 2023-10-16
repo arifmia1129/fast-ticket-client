@@ -29,6 +29,15 @@ export const SidebarItems = (role: string) => {
       icon: <TableOutlined />,
       key: `/${role}/passenger`,
     },
+    {
+      label: (
+        <Link href={`/dashboard/${role}/manage-bus_owner`}>
+          Manage Bus Owner
+        </Link>
+      ),
+      icon: <TableOutlined />,
+      key: `/${role}/bus_owner`,
+    },
   ];
 
   const adminSidebarItems: MenuProps["items"] = [
