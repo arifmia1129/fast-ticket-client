@@ -18,3 +18,10 @@ export const passengerItems = [
     link: `dashboard/passenger`,
   },
 ];
+
+export const busOwnerItems = [
+  {
+    label: `Bus-Owner`,
+    link: `dashboard/bus_owner`,
+  },
+];

@@ -125,12 +125,18 @@ export const SidebarItems = (role: string) => {
     },
   ];
 
-  const facultySidebarItems: MenuProps["items"] = [
+  const busOwnerSidebarItems: MenuProps["items"] = [
     ...defaultSidebarItems,
+
     {
-      label: <Link href={`/${role}/courses`}>Courses</Link>,
+      label: <Link href={`/dashboard/${role}/bus`}>Bus</Link>,
       icon: <TableOutlined />,
-      key: `/${role}/courses`,
+      key: `/${role}/bus`,
+    },
+    {
+      label: <Link href={`/dashboard/${role}/trip`}>Trip</Link>,
+      icon: <TableOutlined />,
+      key: `/${role}/trip`,
     },
   ];
 
@@ -153,7 +159,7 @@ export const SidebarItems = (role: string) => {
 
   if (role === USER_ROLE.SUPER_ADMIN) return superAdminSidebarItems;
   else if (role === USER_ROLE.ADMIN) return adminSidebarItems;
-  else if (role === USER_ROLE.FACULTY) return facultySidebarItems;
+  else if (role === USER_ROLE.BUS_OWNER) return busOwnerSidebarItems;
   else if (role === USER_ROLE.PASSENGER) return passengerSidebarItems;
   else {
     return defaultSidebarItems;

@@ -1,7 +1,11 @@
 "use client";
 
 import UMBreadCrumb from "@/components/ui/UMBreadCrumb";
-import { passengerItems, superAdminItems } from "@/constants/breadCrumbItem";
+import {
+  busOwnerItems,
+  passengerItems,
+  superAdminItems,
+} from "@/constants/breadCrumbItem";
 
 import { Button, Col, Input, Row, Tag, Tooltip, message } from "antd";
 import { useEffect, useState } from "react";
@@ -23,15 +27,20 @@ import {
 import {
   CheckCircleOutlined,
   ClockCircleOutlined,
-  CloseCircleOutlined,
+  DeleteFilled,
   ExclamationCircleOutlined,
   MinusCircleOutlined,
   ReloadOutlined,
   SyncOutlined,
 } from "@ant-design/icons";
 import ConfirmationModal from "@/components/Modal/Confirmation";
+import Link from "next/link";
+import {
+  useDeleteBusMutation,
+  useGetBusQuery,
+} from "@/redux/features/bus/busApi";
 
-const BookedPage = ({ searchParams }: any) => {
+const TripList = ({ searchParams }: any) => {
   //   const { data: adminData } = useGetAdminByIdQuery(params.id);
 
   const fetchQuery: Record<string, any> = {};
@@ -48,7 +57,7 @@ const BookedPage = ({ searchParams }: any) => {
   fetchQuery["sortOrder"] = sortOrder;
   fetchQuery["searchTerm"] = searchTerm;
 
-  const { data: fetchedData, isLoading } = useGetMyBookedQuery({
+  const { data: fetchedData, isLoading } = useGetBusQuery({
     ...fetchQuery,
   });
 
@@ -62,17 +71,12 @@ const BookedPage = ({ searchParams }: any) => {
     }
   }, [debouncedSearchTerm]);
 
-  const items = [...passengerItems];
-
-  items.push({
-    label: "Modify Search",
-    link: "dashboard/passenger/book-seat/trip-info",
-  });
+  const items = [...busOwnerItems];
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [forDeleteBookedId, setForDeleteBookedId] = useState<string>("");
+  const [forDeleteBusId, setForDeleteBusId] = useState<string>("");
 
-  const [deleteBooked] = useDeleteBookedMutation();
+  const [deleteBus] = useDeleteBusMutation();
 
   const showModal: any = () => {
     setIsModalOpen(true);
@@ -80,13 +84,13 @@ const BookedPage = ({ searchParams }: any) => {
 
   const handleOk = async () => {
     setIsModalOpen(false);
-    message.loading("Booking...");
+    message.loading("Deleteing...");
 
     try {
-      const { data, error } = (await deleteBooked(forDeleteBookedId)) as any;
+      const { data, error } = (await deleteBus(forDeleteBusId)) as any;
 
       if (data?._id) {
-        message.success("Successfully deleted the booked");
+        message.success("Successfully deleted the bus");
       } else {
         const { message: errMsg, path } = error?.data?.errorMessages[0] || {};
 
@@ -111,104 +115,35 @@ const BookedPage = ({ searchParams }: any) => {
 
   const columns = [
     {
-      title: "Bus",
-      render: (data: any) => {
-        return (
-          <>
-            <p>{data?.trip?.bus?.name}</p>
-            <small style={{ textAlign: "center" }}>{data?.trip?.busNo}</small>
-          </>
-        );
-      },
+      title: "Name",
+      dataIndex: "name",
     },
-    {
-      title: "Seat",
-      dataIndex: "seat",
-    },
-    {
-      title: "Source",
-      dataIndex: "trip",
-      render: (data: any) => {
-        return data?.source;
-      },
-    },
-    {
-      title: "Destination",
-      dataIndex: "trip",
-      render: (data: any) => {
-        return data?.destination;
-      },
-    },
-    {
-      title: "Date",
-      dataIndex: "trip",
-      render: (data: any) => {
-        return data && dayjs(data?.date).format("D-MM-YYYY");
-      },
-    },
-    {
-      title: "Time",
-      dataIndex: "trip",
-      render: (data: any) => {
-        return data && data.time;
-      },
-    },
-    {
-      title: "Price",
-      dataIndex: "trip",
-      render: (data: any) => {
-        return data && data.price;
-      },
-    },
-    {
-      title: "Status",
-      render: ({ status }: any) => {
-        let customStatus;
 
-        if (status === "pending") {
-          customStatus = (
-            <Tag icon={<SyncOutlined spin />} color="processing">
-              processing
-            </Tag>
-          );
-        } else if (status === "accepted") {
-          customStatus = (
-            <Tag icon={<CheckCircleOutlined />} color="success">
-              accepted
-            </Tag>
-          );
-        } else if (status === "cancelled") {
-          customStatus = (
-            <Tag icon={<CloseCircleOutlined />} color="error">
-              cancelled
-            </Tag>
-          );
-        }
-
-        return customStatus;
+    {
+      title: "Created At",
+      dataIndex: "createdAt",
+      sorter: true,
+      render: (data: any) => {
+        return data && dayjs(data).format("D-MM-YYYY, hh:mm:ss A");
       },
     },
 
     {
       title: "Action",
-      render: function ({ _id, status }: any) {
+      render: function ({ _id }: any) {
         return (
           <>
-            {status === "pending" && (
-              <Tooltip title="Cancle booked">
-                <Button
-                  onClick={() => {
-                    setForDeleteBookedId(_id);
-                    showModal();
-                  }}
-                  style={{ margin: "5px" }}
-                  type="primary"
-                  danger
-                >
-                  <CloseCircleOutlined />
-                </Button>
-              </Tooltip>
-            )}
+            <Button
+              onClick={() => {
+                setForDeleteBusId(_id);
+                showModal();
+              }}
+              style={{ margin: "5px" }}
+              type="primary"
+              danger
+            >
+              <DeleteFilled />
+            </Button>
           </>
         );
       },
@@ -249,7 +184,7 @@ const BookedPage = ({ searchParams }: any) => {
       <UMBreadCrumb items={items} />
       <Row gutter={[16, 16]}>
         <Col xs={24} sm={12} md={8} lg={6}>
-          <ActionBar title="My Booked Info">
+          <ActionBar title="My Added Bus">
             <Input
               value={searchTerm}
               placeholder="Search anything..."
@@ -258,16 +193,19 @@ const BookedPage = ({ searchParams }: any) => {
               size="large"
               onChange={(event: any) => setSearchTerm(event.target.value)}
             />
+            <div style={{ margin: "5px 0" }}>
+              <Link href="/dashboard/bus_owner/bus/add">
+                <Button style={{ margin: "0 5px" }} type="primary">
+                  Add Bus
+                </Button>
+              </Link>
+              {(searchTerm || sortBy || sortOrder) && (
+                <Button onClick={handleResetQuery} type="primary">
+                  <ReloadOutlined />
+                </Button>
+              )}
+            </div>
           </ActionBar>
-        </Col>
-        <Col xs={24} sm={12} md={8} lg={6}>
-          <div style={{ textAlign: "center" }}>
-            {(searchTerm || sortBy || sortOrder) && (
-              <Button onClick={handleResetQuery} type="primary">
-                <ReloadOutlined />
-              </Button>
-            )}
-          </div>
         </Col>
       </Row>
       <div style={{ margin: "10px 0" }}>
@@ -281,17 +219,17 @@ const BookedPage = ({ searchParams }: any) => {
         />
       </div>
 
-      {forDeleteBookedId ? (
+      {forDeleteBusId ? (
         <ConfirmationModal
           handleOk={handleOk}
           handleCancel={handleCancel}
           isModalOpen={isModalOpen}
-          title="Are you sure you want to delete your booked?"
-          description="If you delete your booking. You can't acccess to this booking"
+          title="Are you sure you want to delete the bus?"
+          description="If you delete the bus. You can't acccess to this bus later"
         />
       ) : null}
     </div>
   );
 };
 
-export default BookedPage;
+export default TripList;

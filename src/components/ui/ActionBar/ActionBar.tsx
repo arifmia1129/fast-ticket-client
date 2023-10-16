@@ -6,16 +6,8 @@ type ActionBarType = {
 const ActionBar = ({ title, children }: ActionBarType) => {
   return (
     <div>
-      <h1 style={{ margin: "5px 0" }}>{title}</h1>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        {children}
-      </div>
+      <h1 style={{ margin: "5px" }}>{title}</h1>
+      <div>{children}</div>
     </div>
   );
 };
