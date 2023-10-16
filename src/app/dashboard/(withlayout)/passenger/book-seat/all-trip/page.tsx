@@ -16,6 +16,10 @@ import UMTable from "@/components/ui/UMTable";
 import FormSelectField from "@/components/Forms/FormSelectField";
 import { genderOptions } from "@/constants/global";
 import Form from "@/components/Forms/Form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { bookedSchema } from "@/schema/booked";
+import { useUserProfileQuery } from "@/redux/features/user/userApi";
+import { useCreateBookedMutation } from "@/redux/features/booked/bookedApi";
 
 const TripList = ({ searchParams }: any) => {
   //   const { data: adminData } = useGetAdminByIdQuery(params.id);
@@ -80,30 +84,37 @@ const TripList = ({ searchParams }: any) => {
     setIsModalOpen(false);
   };
 
+  const { data: profile } = useUserProfileQuery(undefined);
+
+  const [createBooked] = useCreateBookedMutation();
+
   const onSubmit = async (info: any) => {
-    message.loading("Creating...");
+    message.loading("Booking...");
 
-    if (info.dateOfBirth) {
-      return message.error("Date of birth is required");
+    const [trip, seat] = info?.tripInfo?.split("-");
+
+    const bookedInfo = {
+      seat,
+      trip,
+      passenger: profile?._id,
+    };
+    try {
+      const { data, error } = (await createBooked(bookedInfo)) as any;
+
+      if (data?._id) {
+        message.success("Successfully booked seat");
+      } else {
+        const { message: errMsg, path } = error?.data?.errorMessages[0] || {};
+
+        const errMessage = errMsg
+          ? `${path} ${errMsg}`
+          : "Something went wrong";
+
+        message.error(errMessage);
+      }
+    } catch (error: any) {
+      message.error(error?.message || "Something went wrong");
     }
-
-    // try {
-    //   const { data, error } = (await createPassenger(info)) as any;
-
-    //   if (data?._id) {
-    //     message.success("Successfully created passenger account");
-    //   } else {
-    //     const { message: errMsg, path } = error?.data?.errorMessages[0] || {};
-
-    //     const errMessage = errMsg
-    //       ? `${path} ${errMsg}`
-    //       : "Something went wrong";
-
-    //     message.error(errMessage);
-    //   }
-    // } catch (error: any) {
-    //   message.error(error?.message || "Something went wrong");
-    // }
   };
 
   const columns = [
@@ -144,35 +155,49 @@ const TripList = ({ searchParams }: any) => {
 
     {
       title: "Action",
-      dataIndex: "seats",
       render: function (data: any) {
-        const availableSeats = data.filter(
+        const availableSeats = data?.seats?.filter(
           (seat: any) => seat.status === "available"
         );
         const seatOptions = availableSeats.map((seat: any) => {
           return {
             label: `seat-${seat.seat}`,
-            value: seat._id,
+            value: `${data._id}-${seat._id}`,
           };
         });
         return (
           <div>
             <div>
-              <Form submitHandler={onSubmit}>
-                <div style={{ display: "flex", alignItems: "center" }}>
+              <Form
+                submitHandler={onSubmit}
+                resolver={yupResolver(bookedSchema)}
+              >
+                <div>
                   <Tooltip title="Select from available seats">
                     <div style={{ width: 100, margin: "0 5px" }}>
                       <FormSelectField
-                        name="seat"
+                        name="tripInfo"
                         size="large"
                         items={seatOptions}
                       />
                     </div>
                   </Tooltip>
                   <Tooltip title="Book a seat">
-                    <Button type="primary" htmlType="submit">
-                      <CheckCircleOutlined />
-                    </Button>
+                    <div
+                      style={{
+                        width: 100,
+                        display: "flex",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <Button
+                        style={{ margin: "5px" }}
+                        type="primary"
+                        htmlType="submit"
+                      >
+                        <CheckCircleOutlined />
+                      </Button>
+                    </div>
                   </Tooltip>
                 </div>
               </Form>
