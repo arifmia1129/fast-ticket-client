@@ -144,6 +144,11 @@ export const SidebarItems = (role: string) => {
       icon: <ThunderboltOutlined />,
       key: `/${role}/registration`,
     },
+    {
+      label: <Link href={`/dashboard/${role}/my-booked`}>Book Seat</Link>,
+      icon: <TableOutlined />,
+      key: `/${role}/my-booked`,
+    },
   ];
 
   if (role === USER_ROLE.SUPER_ADMIN) return superAdminSidebarItems;

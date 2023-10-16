@@ -3,15 +3,11 @@
 import UMBreadCrumb from "@/components/ui/UMBreadCrumb";
 import { passengerItems, superAdminItems } from "@/constants/breadCrumbItem";
 
-import { Button, Col, Input, Row, Tooltip, message } from "antd";
+import { Button, Col, Input, Row, Tag, Tooltip, message } from "antd";
 import { useEffect, useState } from "react";
-import { CheckCircleOutlined, ReloadOutlined } from "@ant-design/icons";
 import ActionBar from "@/components/ui/ActionBar/ActionBar";
-import Link from "next/link";
 import { useDebounced } from "@/utils/hooks";
 import dayjs from "dayjs";
-import DeleteModal from "@/components/Modal/Confirmation";
-import { useGetTripQuery } from "@/redux/features/trip/tripApi";
 import UMTable from "@/components/ui/UMTable";
 import FormSelectField from "@/components/Forms/FormSelectField";
 import { genderOptions } from "@/constants/global";
@@ -19,12 +15,24 @@ import Form from "@/components/Forms/Form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { bookedSchema } from "@/schema/booked";
 import { useUserProfileQuery } from "@/redux/features/user/userApi";
-import { useCreateBookedMutation } from "@/redux/features/booked/bookedApi";
+import {
+  useCreateBookedMutation,
+  useDeleteBookedMutation,
+  useGetMyBookedQuery,
+} from "@/redux/features/booked/bookedApi";
+import {
+  CheckCircleOutlined,
+  ClockCircleOutlined,
+  CloseCircleOutlined,
+  ExclamationCircleOutlined,
+  MinusCircleOutlined,
+  ReloadOutlined,
+  SyncOutlined,
+} from "@ant-design/icons";
+import ConfirmationModal from "@/components/Modal/Confirmation";
 
 const TripList = ({ searchParams }: any) => {
   //   const { data: adminData } = useGetAdminByIdQuery(params.id);
-
-  const { source, destination, date } = searchParams || {};
 
   const fetchQuery: Record<string, any> = {};
 
@@ -40,23 +48,11 @@ const TripList = ({ searchParams }: any) => {
   fetchQuery["sortOrder"] = sortOrder;
   fetchQuery["searchTerm"] = searchTerm;
 
-  if (source) {
-    fetchQuery["source"] = source;
-  }
-
-  if (destination) {
-    fetchQuery["destination"] = destination;
-  }
-
-  if (date) {
-    fetchQuery["date"] = date;
-  }
-
-  const { data: fetchedTripData, isLoading } = useGetTripQuery({
+  const { data: fetchedData, isLoading } = useGetMyBookedQuery({
     ...fetchQuery,
   });
 
-  const { data, meta } = fetchedTripData || {};
+  const { data, meta } = fetchedData || {};
 
   const debouncedSearchTerm = useDebounced(searchTerm, 600);
 
@@ -74,7 +70,9 @@ const TripList = ({ searchParams }: any) => {
   });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [deleteAdminId, setDeleteAdminId] = useState("");
+  const [forDeleteBookedId, setForDeleteBookedId] = useState<string>("");
+
+  const [deleteBooked] = useDeleteBookedMutation();
 
   const showModal: any = () => {
     setIsModalOpen(true);
@@ -82,32 +80,13 @@ const TripList = ({ searchParams }: any) => {
 
   const handleOk = async () => {
     setIsModalOpen(false);
-    // await deleteDepartment(deleteAdminId);
-  };
-
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
-
-  const { data: profile } = useUserProfileQuery(undefined);
-
-  const [createBooked] = useCreateBookedMutation();
-
-  const onSubmit = async (info: any) => {
     message.loading("Booking...");
 
-    const [trip, seat] = info?.tripInfo?.split("-");
-
-    const bookedInfo = {
-      seat,
-      trip,
-      passenger: profile?._id,
-    };
     try {
-      const { data, error } = (await createBooked(bookedInfo)) as any;
+      const { data, error } = (await deleteBooked(forDeleteBookedId)) as any;
 
       if (data?._id) {
-        message.success("Successfully booked seat");
+        message.success("Successfully deleted the booked");
       } else {
         const { message: errMsg, path } = error?.data?.errorMessages[0] || {};
 
@@ -122,92 +101,115 @@ const TripList = ({ searchParams }: any) => {
     }
   };
 
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
+  const { data: profile } = useUserProfileQuery(undefined);
+
+  const [createBooked] = useCreateBookedMutation();
+
   const columns = [
     {
       title: "Bus",
       render: (data: any) => {
         return (
           <>
-            <p>{data?.bus?.name}</p>
-            <small style={{ textAlign: "center" }}>{data?.busNo}</small>
+            <p>{data?.trip?.bus?.name}</p>
+            <small style={{ textAlign: "center" }}>{data?.trip?.busNo}</small>
           </>
         );
       },
     },
     {
+      title: "Seat",
+      dataIndex: "seat",
+    },
+    {
       title: "Source",
-      dataIndex: "source",
+      dataIndex: "trip",
+      render: (data: any) => {
+        return data?.source;
+      },
     },
     {
       title: "Destination",
-      dataIndex: "destination",
+      dataIndex: "trip",
+      render: (data: any) => {
+        return data?.destination;
+      },
     },
     {
       title: "Date",
-      dataIndex: "date",
+      dataIndex: "trip",
       render: (data: any) => {
-        return data && dayjs(data).format("D-MM-YYYY");
+        return data && dayjs(data?.date).format("D-MM-YYYY");
       },
     },
     {
       title: "Time",
-      dataIndex: "time",
+      dataIndex: "trip",
+      render: (data: any) => {
+        return data && data.time;
+      },
     },
     {
       title: "Price",
-      dataIndex: "price",
+      dataIndex: "trip",
+      render: (data: any) => {
+        return data && data.price;
+      },
+    },
+    {
+      title: "Status",
+      render: ({ status }: any) => {
+        let customStatus;
+
+        if (status === "pending") {
+          customStatus = (
+            <Tag icon={<SyncOutlined spin />} color="processing">
+              processing
+            </Tag>
+          );
+        } else if (status === "accepted") {
+          customStatus = (
+            <Tag icon={<CheckCircleOutlined />} color="success">
+              accepted
+            </Tag>
+          );
+        } else if (status === "cancelled") {
+          customStatus = (
+            <Tag icon={<CloseCircleOutlined />} color="error">
+              cancelled
+            </Tag>
+          );
+        }
+
+        return customStatus;
+      },
     },
 
     {
       title: "Action",
-      render: function (data: any) {
-        const availableSeats = data?.seats?.filter(
-          (seat: any) => seat.status === "available"
-        );
-        const seatOptions = availableSeats.map((seat: any) => {
-          return {
-            label: `seat-${seat.seat}`,
-            value: `${data._id}-${seat._id}`,
-          };
-        });
+      render: function ({ _id, status }: any) {
         return (
-          <div>
-            <div>
-              <Form
-                submitHandler={onSubmit}
-                resolver={yupResolver(bookedSchema)}
-              >
-                <div>
-                  <Tooltip title="Select from available seats">
-                    <div style={{ width: 100, margin: "0 5px" }}>
-                      <FormSelectField
-                        name="tripInfo"
-                        size="large"
-                        items={seatOptions}
-                      />
-                    </div>
-                  </Tooltip>
-                  <Tooltip title="Book a seat">
-                    <div
-                      style={{
-                        width: 100,
-                        display: "flex",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <Button
-                        style={{ margin: "5px" }}
-                        type="primary"
-                        htmlType="submit"
-                      >
-                        <CheckCircleOutlined />
-                      </Button>
-                    </div>
-                  </Tooltip>
-                </div>
-              </Form>
-            </div>
-          </div>
+          <>
+            {status === "pending" && (
+              <Tooltip title="Cancle booked">
+                <Button
+                  onClick={() => {
+                    setForDeleteBookedId(_id);
+                    showModal();
+                  }}
+                  style={{ margin: "5px" }}
+                  type="primary"
+                  danger
+                >
+                  <CloseCircleOutlined />
+                </Button>
+              </Tooltip>
+            )}
+          </>
         );
       },
     },
@@ -247,7 +249,7 @@ const TripList = ({ searchParams }: any) => {
       <UMBreadCrumb items={items} />
       <Row gutter={[16, 16]}>
         <Col xs={24} sm={12} md={8} lg={6}>
-          <ActionBar title="Trip Information">
+          <ActionBar title="My Booked Info">
             <Input
               value={searchTerm}
               placeholder="Search anything..."
@@ -278,6 +280,16 @@ const TripList = ({ searchParams }: any) => {
           showPagination={true}
         />
       </div>
+
+      {forDeleteBookedId ? (
+        <ConfirmationModal
+          handleOk={handleOk}
+          handleCancel={handleCancel}
+          isModalOpen={isModalOpen}
+          title="Are you sure you want to delete your booked?"
+          description="If you delete your booking. You can't acccess to this booking"
+        />
+      ) : null}
     </div>
   );
 };

@@ -11,3 +11,10 @@ export const adminItems = [
     link: `admin`,
   },
 ];
+
+export const passengerItems = [
+  {
+    label: `Passenger`,
+    link: `dashboard/passenger`,
+  },
+];
