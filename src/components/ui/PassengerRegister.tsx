@@ -5,13 +5,10 @@ import FormDatePicker from "@/components/Forms/FormDatePicker";
 import FormInput from "@/components/Forms/FormInput";
 import FormSelectField from "@/components/Forms/FormSelectField";
 import FormTextArea from "@/components/Forms/FormTextArea";
-import { superAdminItems } from "@/constants/breadCrumbItem";
 import { bloodGroupOptions, genderOptions } from "@/constants/global";
 
-import { adminSchema } from "@/schema/admin";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Button, Col, Row, message } from "antd";
-import UMBreadCrumb from "./UMBreadCrumb";
 import { passengerRegistrationSchema } from "@/schema/passenger";
 import { useCreatePassengerMutation } from "@/redux/features/user/userApi";
 

@@ -1,3 +1,4 @@
+import { getErrorMessageByPropertyName } from "@/utils/errorMessage";
 import { Input } from "antd";
 import React from "react";
 import { useFormContext, Controller } from "react-hook-form";
@@ -21,7 +22,12 @@ const FormTextArea = ({
   validation,
   label,
 }: IInput) => {
-  const { control } = useFormContext();
+  const {
+    control,
+    formState: { errors },
+  } = useFormContext();
+  const errorMessage = getErrorMessageByPropertyName(errors, name);
+
   return (
     <>
       {label ? label : null}
@@ -38,6 +44,7 @@ const FormTextArea = ({
           />
         )}
       />
+      <small style={{ color: "red" }}>{errorMessage && errorMessage}</small>
     </>
   );
 };

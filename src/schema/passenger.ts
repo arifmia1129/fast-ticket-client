@@ -9,7 +9,7 @@ export const passengerRegistrationSchema = yup.object().shape({
       lastName: yup.string().required("Last Name is required"),
     }),
     gender: yup.string().required("Gender is required"),
-    dateOfBirth: yup.string(),
+    dateOfBirth: yup.string().required("Date of Birth is required"),
     email: yup
       .string()
       .email("Invalid email format")

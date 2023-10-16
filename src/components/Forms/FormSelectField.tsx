@@ -1,3 +1,4 @@
+import { getErrorMessageByPropertyName } from "@/utils/errorMessage";
 import { Select } from "antd";
 import React from "react";
 import { useFormContext, Controller } from "react-hook-form";
@@ -21,7 +22,12 @@ const FormSelectField = ({
   items,
   handleOnChange,
 }: IInput) => {
-  const { control } = useFormContext();
+  const {
+    control,
+    formState: { errors },
+  } = useFormContext();
+
+  const errorMessage = getErrorMessageByPropertyName(errors, name);
   return (
     <>
       {label ? label : null}
@@ -31,6 +37,7 @@ const FormSelectField = ({
         render={({ field: { onChange, value } }) => (
           <Select
             defaultValue={defaultValue}
+            showSearch
             size={size}
             onChange={handleOnChange ? (e) => handleOnChange(e) : onChange}
             options={items}
@@ -40,6 +47,7 @@ const FormSelectField = ({
           />
         )}
       />
+      <small style={{ color: "red" }}>{errorMessage && errorMessage}</small>
     </>
   );
 };

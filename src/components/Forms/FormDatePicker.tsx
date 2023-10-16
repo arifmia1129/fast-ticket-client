@@ -2,6 +2,7 @@ import { DatePicker, DatePickerProps, Input } from "antd";
 import React from "react";
 import { useFormContext, Controller } from "react-hook-form";
 import dayjs, { Dayjs } from "dayjs";
+import { getErrorMessageByPropertyName } from "@/utils/errorMessage";
 
 interface IDatePicker {
   name: string;
@@ -23,7 +24,14 @@ const FormDatePicker = ({
   label,
   onChange,
 }: IDatePicker) => {
-  const { control, setValue } = useFormContext();
+  const {
+    control,
+    setValue,
+    formState: { errors },
+  } = useFormContext();
+
+  const errorMessage = getErrorMessageByPropertyName(errors, name);
+
   const handleOnChange: DatePickerProps["onChange"] = (date, dateString) => {
     onChange ? onChange(date, dateString) : null;
 
@@ -39,11 +47,11 @@ const FormDatePicker = ({
         render={({ field }) => (
           <DatePicker
             style={{ width: "100%", height: 40 }}
-            defaultValue={dayjs(field.value)}
             onChange={handleOnChange}
           />
         )}
       />
+      <small style={{ color: "red" }}>{errorMessage && errorMessage}</small>
     </>
   );
 };
