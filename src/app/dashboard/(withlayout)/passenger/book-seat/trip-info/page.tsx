@@ -18,9 +18,10 @@ import {
   useGetTripSourceQuery,
 } from "@/redux/features/trip/tripApi";
 import { selectTripInfoSchema } from "@/schema/trip";
+import { useRouter } from "next/navigation";
 
 const TripInfoPage = () => {
-  const [createPassenger] = useCreatePassengerMutation();
+  const router = useRouter();
 
   const { data: source } = useGetTripSourceQuery(undefined);
 
@@ -41,23 +42,10 @@ const TripInfoPage = () => {
   });
 
   const onSubmit = async (info: any) => {
-    console.log(info);
-    message.loading("Creating...");
-
-    try {
-      // const { data, error } = (await createPassenger(info)) as any;
-      // if (data?._id) {
-      //   message.success("Successfully created passenger account");
-      // } else {
-      //   const { message: errMsg, path } = error?.data?.errorMessages[0] || {};
-      //   const errMessage = errMsg
-      //     ? `${path} ${errMsg}`
-      //     : "Something went wrong";
-      //   message.error(errMessage);
-      // }
-    } catch (error: any) {
-      message.error(error?.message || "Something went wrong");
-    }
+    const { source, destination, date } = info;
+    router.push(
+      `/dashboard/passenger/book-seat/all-trip?date=${date}&source=${source}&destination=${destination}`
+    );
   };
 
   return (
@@ -113,7 +101,7 @@ const TripInfoPage = () => {
         </div>
 
         <Button type="primary" htmlType="submit">
-          Create
+          Search
         </Button>
       </Form>
     </div>

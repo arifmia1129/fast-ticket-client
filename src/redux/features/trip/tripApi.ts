@@ -36,6 +36,17 @@ const tripApi = baseApi.injectEndpoints({
       },
       providesTags: [tagTypes.TRIP],
     }),
+    getTrip: build.query({
+      query: (query: Record<string, any>) => ({
+        url: TRIP_API,
+        method: "GET",
+        params: query,
+      }),
+      transformResponse: ({ data, meta }) => {
+        return { data, meta };
+      },
+      providesTags: [tagTypes.TRIP],
+    }),
   }),
 });
 
@@ -43,4 +54,5 @@ export const {
   useCreateTripMutation,
   useGetTripDestinationQuery,
   useGetTripSourceQuery,
+  useGetTripQuery,
 } = tripApi;
