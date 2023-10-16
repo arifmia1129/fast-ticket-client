@@ -3,7 +3,7 @@
 import UMBreadCrumb from "@/components/ui/UMBreadCrumb";
 import { passengerItems, superAdminItems } from "@/constants/breadCrumbItem";
 
-import { Button, Col, Input, Row, Tooltip, message } from "antd";
+import { Avatar, Button, Col, Input, Row, Tooltip, message } from "antd";
 import { useEffect, useState } from "react";
 import ActionBar from "@/components/ui/ActionBar/ActionBar";
 import Link from "next/link";
@@ -30,8 +30,12 @@ import {
   CheckCircleOutlined,
 } from "@ant-design/icons";
 import ConfirmationModal from "@/components/Modal/Confirmation";
+import {
+  useDeletePassengerMutation,
+  useGetPassengerQuery,
+} from "@/redux/features/passenger/passengerApi";
 
-const TripList = ({ searchParams }: any) => {
+const ManagePassengerPage = ({ searchParams }: any) => {
   //   const { data: adminData } = useGetAdminByIdQuery(params.id);
 
   const { source, destination, date } = searchParams || {};
@@ -62,17 +66,13 @@ const TripList = ({ searchParams }: any) => {
     fetchQuery["date"] = date;
   }
 
-  const { data: fetchedTripData, isLoading } = useGetTripQuery({
+  const { data: fetchedTripData, isLoading } = useGetPassengerQuery({
     ...fetchQuery,
   });
 
   const { data, meta } = fetchedTripData || {};
 
   const { data: profile } = useUserProfileQuery(undefined);
-
-  const filteredTripData = data?.filter(
-    (trip: any) => trip?.bus?.owner === profile?._id
-  );
 
   const debouncedSearchTerm = useDebounced(searchTerm, 600);
 
@@ -92,7 +92,7 @@ const TripList = ({ searchParams }: any) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [deleteId, setDeleteId] = useState("");
 
-  const [deleteTrip] = useDeleteTripMutation();
+  const [deletePassenger] = useDeletePassengerMutation();
 
   const showModal: any = () => {
     setIsModalOpen(true);
@@ -103,10 +103,10 @@ const TripList = ({ searchParams }: any) => {
     message.loading("Deleteing...");
 
     try {
-      const { data, error } = (await deleteTrip(deleteId)) as any;
+      const { data, error } = (await deletePassenger(deleteId)) as any;
 
       if (data?._id) {
-        message.success("Successfully deleted the trip");
+        message.success("Successfully deleted the passenger");
       } else {
         const { message: errMsg, path } = error?.data?.errorMessages[0] || {};
 
@@ -125,42 +125,49 @@ const TripList = ({ searchParams }: any) => {
     setIsModalOpen(false);
   };
 
-  const [createBooked] = useCreateBookedMutation();
-
   const columns = [
     {
-      title: "Bus",
+      title: "Profile",
       render: (data: any) => {
         return (
-          <>
-            <p>{data?.bus?.name}</p>
-            <small style={{ textAlign: "center" }}>{data?.busNo}</small>
-          </>
+          <div>
+            <Avatar
+              size={64}
+              src={<img src={data?.profileImage} alt="avatar" />}
+            />
+            <p>
+              {data?.name?.firstName} {data?.name?.lastName}
+            </p>
+          </div>
         );
       },
     },
     {
-      title: "Source",
-      dataIndex: "source",
+      title: "Date of Birth",
+      dataIndex: "dateOfBirth",
     },
     {
-      title: "Destination",
-      dataIndex: "destination",
+      title: "Gender",
+      dataIndex: "gender",
     },
     {
-      title: "Date",
-      dataIndex: "date",
+      title: "Contact",
       render: (data: any) => {
-        return data && dayjs(data).format("D-MM-YYYY");
+        return (
+          <div>
+            <p>{data?.contactNo}</p>
+            <p>{data?.email}</p>
+          </div>
+        );
       },
     },
     {
-      title: "Time",
-      dataIndex: "time",
-    },
-    {
-      title: "Price",
-      dataIndex: "price",
+      title: "Created At",
+      dataIndex: "createdAt",
+      sorter: true,
+      render: (data: any) => {
+        return data && dayjs(data).format("D-MM-YYYY, hh:mm:ss A");
+      },
     },
 
     {
@@ -168,12 +175,11 @@ const TripList = ({ searchParams }: any) => {
       render: function (data: any) {
         return (
           <>
-            <Link href={`/dashboard/bus_owner/trip/edit/${data._id}`}>
+            <Link href={`/dashboard/admin/manage-passenger/edit/${data._id}`}>
               <Button
                 style={{
                   margin: "0px 5px",
                 }}
-                onClick={() => console.log(data)}
                 type="primary"
               >
                 <EditOutlined />
@@ -218,43 +224,15 @@ const TripList = ({ searchParams }: any) => {
     setSortOrder(order === "ascend" ? "asc" : "desc");
   };
 
-  const handleResetQuery = () => {
-    setSortOrder("");
-    setSortBy("");
-    setSearchTerm("");
-  };
-
   return (
     <div>
       <UMBreadCrumb items={items} />
-      <ActionBar title="My Added Trip">
-        <Input
-          value={searchTerm}
-          placeholder="Search anything..."
-          style={{ maxWidth: "300px" }}
-          type="text"
-          size="large"
-          onChange={(event: any) => setSearchTerm(event.target.value)}
-        />
-        <div style={{ margin: "5px 0" }}>
-          <Link href="/dashboard/bus_owner/trip/create">
-            <Button style={{ margin: "0 5px" }} type="primary">
-              Create Trip
-            </Button>
-          </Link>
-          {(searchTerm || sortBy || sortOrder) && (
-            <Button onClick={handleResetQuery} type="primary">
-              <ReloadOutlined />
-            </Button>
-          )}
-        </div>
-      </ActionBar>
 
       <div style={{ margin: "10px 0" }}>
         <UMTable
           loading={isLoading}
           columns={columns}
-          dataSource={filteredTripData}
+          dataSource={data}
           paginationOptions={paginationOptions}
           handleChangeTableOptions={handleChangeTableOptions}
           showPagination={true}
@@ -273,4 +251,4 @@ const TripList = ({ searchParams }: any) => {
   );
 };
 
-export default TripList;
+export default ManagePassengerPage;

@@ -26,6 +26,17 @@ const tripApi = baseApi.injectEndpoints({
       },
       invalidatesTags: [tagTypes.TRIP],
     }),
+    updateTrip: build.mutation({
+      query: ({ id, data }) => ({
+        url: `${TRIP_API}/${id}`,
+        method: "PATCH",
+        data: data,
+      }),
+      transformResponse: ({ data }) => {
+        return data;
+      },
+      invalidatesTags: [tagTypes.TRIP],
+    }),
     getTripSource: build.query({
       query: () => ({
         url: `${TRIP_API}/source`,
@@ -57,6 +68,16 @@ const tripApi = baseApi.injectEndpoints({
       },
       providesTags: [tagTypes.TRIP],
     }),
+    getTripById: build.query({
+      query: (id: string) => ({
+        url: `${TRIP_API}/${id}`,
+        method: "GET",
+      }),
+      transformResponse: ({ data }) => {
+        return data;
+      },
+      providesTags: [tagTypes.TRIP],
+    }),
   }),
 });
 
@@ -66,4 +87,6 @@ export const {
   useGetTripSourceQuery,
   useGetTripQuery,
   useDeleteTripMutation,
+  useGetTripByIdQuery,
+  useUpdateTripMutation,
 } = tripApi;

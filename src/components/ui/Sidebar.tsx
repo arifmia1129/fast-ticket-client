@@ -10,7 +10,7 @@ const { Sider } = Layout;
 
 const Sidebar = () => {
   const [menuItems, setMenuItems] = useState<MenuProps["items"]>([]);
-  const [collapsed, setCollapsed] = useState(true);
+  const [collapsed, setCollapsed] = useState(false);
 
   const { role } = getUserInfo() as { role: string };
 
