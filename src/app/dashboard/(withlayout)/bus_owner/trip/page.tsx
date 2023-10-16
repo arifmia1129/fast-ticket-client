@@ -168,11 +168,6 @@ const TripList = ({ searchParams }: any) => {
       render: function (data: any) {
         return (
           <>
-            <Link href={`/super_admin/admin/details/${data._id}`}>
-              <Button type="primary">
-                <EyeOutlined />
-              </Button>
-            </Link>
             <Link href={`/super_admin/admin/edit/${data._id}`}>
               <Button
                 style={{
@@ -232,29 +227,29 @@ const TripList = ({ searchParams }: any) => {
   return (
     <div>
       <UMBreadCrumb items={items} />
-      <Row gutter={[16, 16]}>
-        <Col xs={24} sm={12} md={8} lg={6}>
-          <ActionBar title="Trip Information">
-            <Input
-              value={searchTerm}
-              placeholder="Search anything..."
-              style={{ maxWidth: "100%" }}
-              type="text"
-              size="large"
-              onChange={(event: any) => setSearchTerm(event.target.value)}
-            />
-          </ActionBar>
-        </Col>
-        <Col xs={24} sm={12} md={8} lg={6}>
-          <div style={{ textAlign: "center" }}>
-            {(searchTerm || sortBy || sortOrder) && (
-              <Button onClick={handleResetQuery} type="primary">
-                <ReloadOutlined />
-              </Button>
-            )}
-          </div>
-        </Col>
-      </Row>
+      <ActionBar title="My Added Trip">
+        <Input
+          value={searchTerm}
+          placeholder="Search anything..."
+          style={{ maxWidth: "300px" }}
+          type="text"
+          size="large"
+          onChange={(event: any) => setSearchTerm(event.target.value)}
+        />
+        <div style={{ margin: "5px 0" }}>
+          <Link href="/dashboard/bus_owner/trip/create">
+            <Button style={{ margin: "0 5px" }} type="primary">
+              Create Trip
+            </Button>
+          </Link>
+          {(searchTerm || sortBy || sortOrder) && (
+            <Button onClick={handleResetQuery} type="primary">
+              <ReloadOutlined />
+            </Button>
+          )}
+        </div>
+      </ActionBar>
+
       <div style={{ margin: "10px 0" }}>
         <UMTable
           loading={isLoading}
