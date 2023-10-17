@@ -5,14 +5,10 @@ import FormDatePicker from "@/components/Forms/FormDatePicker";
 import FormInput from "@/components/Forms/FormInput";
 import FormSelectField from "@/components/Forms/FormSelectField";
 import FormTextArea from "@/components/Forms/FormTextArea";
-import { bloodGroupOptions, genderOptions } from "@/constants/global";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Button, Col, Result, Row, message } from "antd";
-import { passengerRegistrationSchema } from "@/schema/passenger";
-import { useCreatePassengerMutation } from "@/redux/features/user/userApi";
-import { busOwnerRegistrationSchema } from "@/schema/busOwer";
-import { useCreateBusOwnerMutation } from "@/redux/features/busOwner/busOwnerApi";
+
 import MainLayout from "@/components/layout/MainLayout";
 import HeaderTitle from "@/components/HeaderTitle";
 import { SendOutlined } from "@ant-design/icons";

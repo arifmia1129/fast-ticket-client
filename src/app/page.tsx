@@ -1,6 +1,8 @@
+import About from "@/components/Home/About";
 import AppInfoPage from "@/components/Home/AppInfo";
 import Featured from "@/components/Home/Featured";
 import Services from "@/components/Home/Services";
+import TrustedPartnerPage from "@/components/Home/TrustedPartner";
 import HomeCarousel from "@/components/HomeCarousel";
 import MainLayout from "@/components/layout/MainLayout";
 import { primaryColor } from "@/utils/color";
@@ -73,6 +75,8 @@ const RootHome = () => {
           <Services />
           <AppInfoPage />
           <Featured />
+          <About />
+          <TrustedPartnerPage />
         </div>
       </MainLayout>
     </>
