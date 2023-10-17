@@ -2,6 +2,7 @@
 import { getUserInfo } from "@/services/auth.service";
 import { Button, Card, Row } from "antd";
 import { useRouter } from "next/navigation";
+import HeaderTitle from "../HeaderTitle";
 
 const { Meta } = Card;
 
@@ -9,19 +10,11 @@ const Services = () => {
   const router = useRouter();
   return (
     <>
-      <h1
-        style={{
-          color: "#333333",
-          textAlign: "center",
-          margin: "50px 0",
-          fontSize: "40px",
-        }}
-      >
-        Introducing you to the Fast way of life
-      </h1>
-      <h2 style={{ color: "gray", textAlign: "center", margin: "50px 0" }}>
-        A one-stop solution for your travel needs
-      </h2>
+      <HeaderTitle
+        title="Introducing you to the Fast way of life"
+        subtitle="A one-stop solution for your travel needs"
+      />
+
       <Row justify={"center"}>
         <Card
           style={{ width: 300 }}
