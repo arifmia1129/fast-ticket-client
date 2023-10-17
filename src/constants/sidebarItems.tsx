@@ -10,11 +10,17 @@ import {
 } from "@ant-design/icons";
 import Link from "next/link";
 import { USER_ROLE } from "./role";
+
+// Helper function to generate keys
+const generateKey = (role: string, item: string) => {
+  return `/${role}${item}`;
+};
+
 export const SidebarItems = (role: string) => {
   const defaultSidebarItems: MenuProps["items"] = [
     {
       label: <Link href={`/dashboard/${role}`}>Profile</Link>,
-      key: "profile",
+      key: generateKey(role, "profile"),
       icon: <ProfileOutlined />,
     },
   ];
@@ -27,7 +33,7 @@ export const SidebarItems = (role: string) => {
         </Link>
       ),
       icon: <TableOutlined />,
-      key: `/${role}/passenger`,
+      key: generateKey(role, "passenger"),
     },
     {
       label: (
@@ -36,7 +42,24 @@ export const SidebarItems = (role: string) => {
         </Link>
       ),
       icon: <TableOutlined />,
-      key: `/${role}/bus_owner`,
+      key: generateKey(role, "bus_owner"),
+    },
+    {
+      label: <Link href={`/dashboard/${role}/manage-bus`}>Manage Bus</Link>,
+      icon: <TableOutlined />,
+      key: generateKey(role, "bus"),
+    },
+    {
+      label: <Link href={`/dashboard/${role}/manage-trip`}>Manage Trip</Link>,
+      icon: <TableOutlined />,
+      key: generateKey(role, "trip"),
+    },
+    {
+      label: (
+        <Link href={`/dashboard/${role}/manage-booked`}>Manage Booked</Link>
+      ),
+      icon: <TableOutlined />,
+      key: generateKey(role, "booked"),
     },
   ];
 
@@ -49,25 +72,9 @@ export const SidebarItems = (role: string) => {
     ...defaultSidebarItems,
     ...commonAdminSidebarItems,
     {
-      label: <Link href={`/${role}/admin`}>Manage Admin</Link>,
+      label: <Link href={`/dashboard/${role}/manage-admin`}>Manage Admin</Link>,
       icon: <TableOutlined />,
-      key: `/${role}/admin`,
-    },
-    {
-      label: <Link href={`/${role}/user`}>Manage User</Link>,
-      icon: <TableOutlined />,
-      key: `/${role}/user`,
-    },
-    {
-      label: "Management",
-      key: "management",
-      icon: <AppstoreOutlined />,
-      children: [
-        {
-          label: <Link href={`/${role}/department`}>Department</Link>,
-          key: `/${role}/department`,
-        },
-      ],
+      key: generateKey(role, "manage-admin"),
     },
   ];
 
@@ -77,12 +84,12 @@ export const SidebarItems = (role: string) => {
     {
       label: <Link href={`/dashboard/${role}/bus`}>Bus</Link>,
       icon: <TableOutlined />,
-      key: `/${role}/bus`,
+      key: generateKey(role, "bus"),
     },
     {
       label: <Link href={`/dashboard/${role}/trip`}>Trip</Link>,
       icon: <TableOutlined />,
-      key: `/${role}/trip`,
+      key: generateKey(role, "trip"),
     },
   ];
 
@@ -94,12 +101,12 @@ export const SidebarItems = (role: string) => {
         <Link href={`/dashboard/${role}/book-seat/trip-info`}>Book Seat</Link>
       ),
       icon: <ThunderboltOutlined />,
-      key: `/${role}/registration`,
+      key: generateKey(role, "registration"),
     },
     {
-      label: <Link href={`/dashboard/${role}/my-booked`}>Book Seat</Link>,
+      label: <Link href={`/dashboard/${role}/my-booked`}>My Booked</Link>,
       icon: <TableOutlined />,
-      key: `/${role}/my-booked`,
+      key: generateKey(role, "my-booked"),
     },
   ];
 

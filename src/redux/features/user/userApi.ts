@@ -16,6 +16,17 @@ const userApi = baseApi.injectEndpoints({
       },
       invalidatesTags: [tagTypes.USER],
     }),
+    createAdmin: build.mutation({
+      query: (adminData) => ({
+        url: `${USER_API}/create-admin`,
+        method: "POST",
+        data: adminData,
+      }),
+      transformResponse: ({ data }) => {
+        return data;
+      },
+      invalidatesTags: [tagTypes.USER, tagTypes.ADMIN],
+    }),
     userProfile: build.query({
       query: () => ({
         url: `${USER_API}/profile`,
@@ -29,4 +40,8 @@ const userApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useCreatePassengerMutation, useUserProfileQuery } = userApi;
+export const {
+  useCreatePassengerMutation,
+  useUserProfileQuery,
+  useCreateAdminMutation,
+} = userApi;

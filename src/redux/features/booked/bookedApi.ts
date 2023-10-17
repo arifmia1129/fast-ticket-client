@@ -16,6 +16,17 @@ const bookedApi = baseApi.injectEndpoints({
       },
       invalidatesTags: [tagTypes.BOOKED, tagTypes.TRIP],
     }),
+    updateBooked: build.mutation({
+      query: ({ data, id }: any) => ({
+        url: `${BOOKED_API}/${id}`,
+        method: "PATCH",
+        data: data,
+      }),
+      transformResponse: ({ data }) => {
+        return data;
+      },
+      invalidatesTags: [tagTypes.BOOKED, tagTypes.TRIP],
+    }),
     deleteBooked: build.mutation({
       query: (id: string) => ({
         url: `${BOOKED_API}/${id}`,
@@ -35,7 +46,7 @@ const bookedApi = baseApi.injectEndpoints({
       transformResponse: ({ data, meta }) => {
         return { data, meta };
       },
-      providesTags: [tagTypes.BOOKED],
+      providesTags: [tagTypes.BOOKED, tagTypes.TRIP],
     }),
     getMyBooked: build.query({
       query: (query: Record<string, any>) => ({
@@ -46,7 +57,7 @@ const bookedApi = baseApi.injectEndpoints({
       transformResponse: ({ data, meta }) => {
         return { data, meta };
       },
-      providesTags: [tagTypes.BOOKED],
+      providesTags: [tagTypes.BOOKED, tagTypes.TRIP],
     }),
   }),
 });
@@ -56,4 +67,5 @@ export const {
   useGetBookedQuery,
   useGetMyBookedQuery,
   useDeleteBookedMutation,
+  useUpdateBookedMutation,
 } = bookedApi;

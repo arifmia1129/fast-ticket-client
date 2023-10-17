@@ -1,0 +1,21 @@
+/* Reset margin and padding for the body and html elements */
+
+/* Set the layout to occupy the entire viewport */
+.layout {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  width: 400px;
+  padding: 24px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.button {
+  margin-top: 16px;
+  width: 100%;
+}
