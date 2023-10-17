@@ -1,3 +1,4 @@
+import AppInfoPage from "@/components/Home/AppInfo";
 import Services from "@/components/Home/Services";
 import HomeCarousel from "@/components/HomeCarousel";
 import MainLayout from "@/components/layout/MainLayout";
@@ -69,6 +70,7 @@ const RootHome = () => {
             </Header>
           </Row>
           <Services />
+          <AppInfoPage />
         </div>
       </MainLayout>
     </>

@@ -1,7 +1,7 @@
 import { Button, Menu } from "antd";
 import Link from "next/link";
 import styles from "./navbar.module.css";
-import { MenuOutlined, HomeFilled } from "@ant-design/icons";
+import { MenuOutlined, HomeFilled, PayCircleFilled } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { primaryColor } from "@/utils/color";
 import { removeFromLocalStorage } from "@/utils/local-store";
@@ -55,18 +55,9 @@ const Navbar = () => {
       <Menu.Item icon={<HomeFilled />} className={styles["menu-item"]}>
         <Link href="/">Home</Link>
       </Menu.Item>
-      <Menu.SubMenu
-        className={styles["menu-item"]}
-        key="submenu"
-        title="Services"
-      >
-        <Menu.Item key="service1">
-          <Link href="/services/service1">Service 1</Link>
-        </Menu.Item>
-        <Menu.Item key="service2">
-          <Link href="/services/service2">Service 2</Link>
-        </Menu.Item>
-      </Menu.SubMenu>
+      <Menu.Item icon={<PayCircleFilled />} className={styles["menu-item"]}>
+        <Link href={role ? `/dashboard/${role}` : "/login"}>Buy Ticket</Link>
+      </Menu.Item>
       <Menu.Item className={styles["menu-item"]}>
         <Link href="/contact">Contact</Link>
       </Menu.Item>
