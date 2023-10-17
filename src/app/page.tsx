@@ -1,3 +1,4 @@
+import Services from "@/components/Home/Services";
 import HomeCarousel from "@/components/HomeCarousel";
 import MainLayout from "@/components/layout/MainLayout";
 import { primaryColor } from "@/utils/color";
@@ -67,6 +68,7 @@ const RootHome = () => {
               </Row>
             </Header>
           </Row>
+          <Services />
         </div>
       </MainLayout>
     </>
