@@ -12,39 +12,42 @@ const { Header } = Layout;
 const MainLayout = ({ children }: any) => {
   return (
     <Layout>
-      <Header
-        style={{
-          backgroundColor: "#00b96b",
-          display: "flex",
-          height: 40,
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <div
+      <div style={{ position: "sticky", top: 0, zIndex: 50 }}>
+        <Header
           style={{
+            backgroundColor: "#00b96b",
             display: "flex",
+            height: 40,
             justifyContent: "center",
             alignItems: "center",
           }}
         >
-          <Link href={"/"}>
-            <p style={{ color: "#fff", margin: "0 10px" }}>Contact us</p>
-          </Link>
           <div
             style={{
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              margin: "0 10px",
             }}
           >
-            <PhoneFilled style={{ color: "#fff" }} rotate={90} />
-            <p style={{ color: "#fff", margin: "0 2px" }}>16248</p>
+            <Link href={"/"}>
+              <p style={{ color: "#fff", margin: "0 10px" }}>Contact us</p>
+            </Link>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                margin: "0 10px",
+              }}
+            >
+              <PhoneFilled style={{ color: "#fff" }} rotate={90} />
+              <p style={{ color: "#fff", margin: "0 2px" }}>16248</p>
+            </div>
           </div>
-        </div>
-      </Header>
-      <Navbar />
+        </Header>
+
+        <Navbar />
+      </div>
       {children}
       <AppFooter />
     </Layout>
