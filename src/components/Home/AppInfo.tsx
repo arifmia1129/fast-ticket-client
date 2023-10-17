@@ -8,7 +8,7 @@ const { Content } = Layout;
 
 const AppInfo = () => {
   return (
-    <Layout style={{ minHeight: "100vh" }}>
+    <Layout>
       <Content style={{ padding: "2%" }}>
         <Row gutter={[16, 16]}>
           <Col xs={24} md={12}>

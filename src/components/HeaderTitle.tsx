@@ -12,13 +12,13 @@ export default function HeaderTitle({ title, subtitle }: PropsType) {
         style={{
           color: "#333333",
           textAlign: "center",
-          margin: "50px 0",
+          margin: "30px 0",
           fontSize: "40px",
         }}
       >
         {title}
       </h1>
-      <h2 style={{ color: "gray", textAlign: "center", margin: "50px 0" }}>
+      <h2 style={{ color: "gray", textAlign: "center", margin: "30px 0" }}>
         {subtitle}
       </h2>
     </>

@@ -1,4 +1,5 @@
 import AppInfoPage from "@/components/Home/AppInfo";
+import Featured from "@/components/Home/Featured";
 import Services from "@/components/Home/Services";
 import HomeCarousel from "@/components/HomeCarousel";
 import MainLayout from "@/components/layout/MainLayout";
@@ -71,6 +72,7 @@ const RootHome = () => {
           </Row>
           <Services />
           <AppInfoPage />
+          <Featured />
         </div>
       </MainLayout>
     </>
