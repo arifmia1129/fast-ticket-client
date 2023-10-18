@@ -41,7 +41,6 @@ const Navbar = () => {
           <div style={{ margin: "0 20px" }}>
             <h2
               style={{
-                margin: "0 20vw 0 10vw",
                 color: primaryColor,
                 fontSize: 30,
                 fontWeight: "bold",
@@ -59,10 +58,10 @@ const Navbar = () => {
         <Link href={role ? `/dashboard/${role}` : "/login"}>Buy Ticket</Link>
       </Menu.Item>
       <Menu.Item className={styles["menu-item"]}>
-        <Link href="/contact">Contact</Link>
+        <Link href="/contact">Feedback</Link>
       </Menu.Item>
       <Menu.Item className={styles["menu-item"]}>
-        <Link href="/all-bus">Bus & Review</Link>
+        <Link href="/all-bus">Client Review</Link>
       </Menu.Item>
       {isUserLoggedIn && (
         <Menu.Item className={styles["menu-item"]}>
@@ -116,6 +115,8 @@ const Navbar = () => {
           <Menu
             style={{
               borderWidth: 0,
+              display: "flex",
+              justifyContent: "center",
             }}
             mode="horizontal"
           >

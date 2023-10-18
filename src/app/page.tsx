@@ -4,6 +4,7 @@ import Featured from "@/components/Home/Featured";
 import News from "@/components/Home/News";
 import Services from "@/components/Home/Services";
 import TrustedPartnerPage from "@/components/Home/TrustedPartner";
+import UpcomingServicesPage from "@/components/Home/UpcomingService";
 import HomeCarousel from "@/components/HomeCarousel";
 import MainLayout from "@/components/layout/MainLayout";
 import { primaryColor } from "@/utils/color";
@@ -74,6 +75,7 @@ const RootHome = () => {
             </Header>
           </Row>
           <Services />
+          <UpcomingServicesPage />
           <AppInfoPage />
           <News />
           <Featured />

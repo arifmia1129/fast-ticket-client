@@ -26,7 +26,13 @@ export default function About() {
           </p>
           <Row justify={"center"}>
             <Button type="primary" icon={<ArrowRightOutlined />}>
-              View Full Content
+              <a
+                href="https://www.bbc.com/news"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View Full Content
+              </a>
             </Button>
           </Row>
         </div>
