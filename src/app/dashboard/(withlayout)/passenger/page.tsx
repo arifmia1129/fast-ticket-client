@@ -1,10 +1,12 @@
 "use client";
 
-import { Descriptions, Avatar, Card, Divider, Row } from "antd";
+import { Descriptions, Avatar, Card, Divider, Row, Button } from "antd";
 import { Typography } from "antd";
 import Loading from "@/components/ui/Loading";
 import UMBreadCrumb from "@/components/ui/UMBreadCrumb";
 import { useUserProfileQuery } from "@/redux/features/user/userApi";
+import Link from "next/link";
+import { getUserInfo } from "@/services/auth.service";
 
 const { Text } = Typography;
 
@@ -15,13 +17,23 @@ export default function UserProfile() {
     return <Loading />;
   }
 
+  const { role } = getUserInfo() as any;
+
   return (
     <div>
       <Card title="User Profile">
         <Row justify="center" align="middle" style={{ marginBottom: "20px" }}>
           <Avatar size={128} src={data?.profileImage} />
         </Row>
-
+        {role === "passenger" && (
+          <Row justify="center">
+            <div style={{ margin: "10px" }}>
+              <Link href="/dashboard/passenger/edit-profile">
+                <Button type="primary">Edit Profile</Button>
+              </Link>
+            </div>
+          </Row>
+        )}
         <Descriptions layout="vertical" bordered>
           <Descriptions.Item label="Name">
             {`${data?.name.firstName} ${data?.name.lastName}`}
