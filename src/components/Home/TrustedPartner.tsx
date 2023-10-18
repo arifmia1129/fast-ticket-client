@@ -18,7 +18,7 @@ export default function TrustedPartnerPage() {
     "https://www.shohoz.com/v2/assets/img/trusted-partners/bus_operator_logo/Al-Hamra-208x78.png",
   ];
   return (
-    <>
+    <div style={{ width: "95vw", margin: "auto" }}>
       <HeaderTitle
         title="Our Trusted Partners"
         subtitle="Our partner works with us for smother travels experience"
@@ -35,6 +35,6 @@ export default function TrustedPartnerPage() {
           />
         ))}
       </Marquee>
-    </>
+    </div>
   );
 }

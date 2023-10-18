@@ -1,6 +1,7 @@
 import About from "@/components/Home/About";
 import AppInfoPage from "@/components/Home/AppInfo";
 import Featured from "@/components/Home/Featured";
+import News from "@/components/Home/News";
 import Services from "@/components/Home/Services";
 import TrustedPartnerPage from "@/components/Home/TrustedPartner";
 import HomeCarousel from "@/components/HomeCarousel";
@@ -74,6 +75,7 @@ const RootHome = () => {
           </Row>
           <Services />
           <AppInfoPage />
+          <News />
           <Featured />
           <About />
           <TrustedPartnerPage />

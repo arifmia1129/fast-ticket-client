@@ -1,17 +1,19 @@
 "use client";
 
 import UMBreadCrumb from "@/components/ui/UMBreadCrumb";
-import {
-  busOwnerItems,
-  passengerItems,
-  superAdminItems,
-} from "@/constants/breadCrumbItem";
+import { passengerItems, superAdminItems } from "@/constants/breadCrumbItem";
 
-import { Button, Col, Input, Row, Tag, Tooltip, message } from "antd";
+import { Avatar, Button, Col, Input, Row, Tooltip, message } from "antd";
 import { useEffect, useState } from "react";
 import ActionBar from "@/components/ui/ActionBar/ActionBar";
+import Link from "next/link";
 import { useDebounced } from "@/utils/hooks";
 import dayjs from "dayjs";
+import DeleteModal from "@/components/Modal/Confirmation";
+import {
+  useDeleteTripMutation,
+  useGetTripQuery,
+} from "@/redux/features/trip/tripApi";
 import UMTable from "@/components/ui/UMTable";
 import FormSelectField from "@/components/Forms/FormSelectField";
 import { genderOptions } from "@/constants/global";
@@ -19,34 +21,21 @@ import Form from "@/components/Forms/Form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { bookedSchema } from "@/schema/booked";
 import { useUserProfileQuery } from "@/redux/features/user/userApi";
+import { useCreateBookedMutation } from "@/redux/features/booked/bookedApi";
 import {
-  useCreateBookedMutation,
-  useDeleteBookedMutation,
-  useGetMyBookedQuery,
-} from "@/redux/features/booked/bookedApi";
-import {
-  CheckCircleOutlined,
-  ClockCircleOutlined,
-  DeleteFilled,
-  ExclamationCircleOutlined,
-  MinusCircleOutlined,
+  EyeOutlined,
+  EditOutlined,
+  DeleteOutlined,
   ReloadOutlined,
-  SyncOutlined,
+  CheckCircleOutlined,
 } from "@ant-design/icons";
 import ConfirmationModal from "@/components/Modal/Confirmation";
-import Link from "next/link";
 import {
-  useDeleteBusMutation,
-  useGetBusQuery,
-} from "@/redux/features/bus/busApi";
-import {
-  useDeleteContactMutation,
-  useGetContactQuery,
-} from "@/redux/features/contact/contactApi";
+  useDeleteNewsMutation,
+  useGetNewsQuery,
+} from "@/redux/features/news/newsApi";
 
-const ManageContactPage = ({ searchParams }: any) => {
-  //   const { data: adminData } = useGetAdminByIdQuery(params.id);
-
+const ManageNews = () => {
   const fetchQuery: Record<string, any> = {};
 
   const [size, setSize] = useState<number>(10);
@@ -61,11 +50,9 @@ const ManageContactPage = ({ searchParams }: any) => {
   fetchQuery["sortOrder"] = sortOrder;
   fetchQuery["searchTerm"] = searchTerm;
 
-  const { data: fetchedData, isLoading } = useGetContactQuery({
+  const { data: fetchedData, isLoading } = useGetNewsQuery({
     ...fetchQuery,
   });
-
-  const { data, meta } = fetchedData || {};
 
   const debouncedSearchTerm = useDebounced(searchTerm, 600);
 
@@ -75,12 +62,17 @@ const ManageContactPage = ({ searchParams }: any) => {
     }
   }, [debouncedSearchTerm]);
 
-  const items = [...busOwnerItems];
+  const items = [...passengerItems];
+
+  items.push({
+    label: "Modify Search",
+    link: "dashboard/passenger/book-seat/trip-info",
+  });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [forDeleteId, setForDeleteId] = useState<string>("");
+  const [deleteId, setDeleteId] = useState("");
 
-  const [deleteCotact] = useDeleteContactMutation();
+  const [deleteNews] = useDeleteNewsMutation();
 
   const showModal: any = () => {
     setIsModalOpen(true);
@@ -91,10 +83,10 @@ const ManageContactPage = ({ searchParams }: any) => {
     message.loading("Deleteing...");
 
     try {
-      const { data, error } = (await deleteCotact(forDeleteId)) as any;
+      const { data, error } = (await deleteNews(deleteId)) as any;
 
       if (data?._id) {
-        message.success("Successfully deleted the contact");
+        message.success("Successfully deleted the news");
       } else {
         const { message: errMsg, path } = error?.data?.errorMessages[0] || {};
 
@@ -113,33 +105,21 @@ const ManageContactPage = ({ searchParams }: any) => {
     setIsModalOpen(false);
   };
 
-  const { data: profile } = useUserProfileQuery(undefined);
-
   const [createBooked] = useCreateBookedMutation();
 
   const columns = [
     {
-      title: "Name",
-      dataIndex: "name",
-    },
-    {
-      title: "City",
-      dataIndex: "city",
-    },
-    {
-      title: "Contact",
+      title: "News",
       render: (data: any) => {
         return (
-          <>
-            <p>{data?.contactNo}</p>
-            <p>{data?.email}</p>
-          </>
+          <Row justify="center" align="middle">
+            <Avatar size={64} src={<img src={data?.imageUrl} alt="avatar" />} />
+            <h3 style={{ margin: "0 5px", fontWeight: "bold" }}>
+              {data?.title}
+            </h3>
+          </Row>
         );
       },
-    },
-    {
-      title: "Message",
-      dataIndex: "message",
     },
     {
       title: "Created At",
@@ -152,19 +132,29 @@ const ManageContactPage = ({ searchParams }: any) => {
 
     {
       title: "Action",
-      render: function ({ _id }: any) {
+      render: function (data: any) {
         return (
           <>
+            <Link href={`/dashboard/super_admin/manage-news/edit/${data._id}`}>
+              <Button
+                style={{
+                  margin: "0px 5px",
+                }}
+                onClick={() => console.log(data)}
+                type="primary"
+              >
+                <EditOutlined />
+              </Button>
+            </Link>
             <Button
               onClick={() => {
-                setForDeleteId(_id);
+                setDeleteId(data._id);
                 showModal();
               }}
-              style={{ margin: "5px" }}
               type="primary"
               danger
             >
-              <DeleteFilled />
+              <DeleteOutlined />
             </Button>
           </>
         );
@@ -179,7 +169,7 @@ const ManageContactPage = ({ searchParams }: any) => {
 
   const paginationOptions = {
     pageSize: size,
-    total: meta?.total,
+    total: fetchedData?.meta?.total,
     pageSizeOptions: [5, 10, 20],
     showSizeChanger: true,
     onChange: handleChangePaginationOptions,
@@ -204,42 +194,50 @@ const ManageContactPage = ({ searchParams }: any) => {
   return (
     <div>
       <UMBreadCrumb items={items} />
-      <Row gutter={[16, 16]}>
-        <Col xs={24} sm={12} md={8} lg={6}>
-          <ActionBar title="Manage Bus">
-            <Input
-              value={searchTerm}
-              placeholder="Search anything..."
-              style={{ maxWidth: "100%" }}
-              type="text"
-              size="large"
-              onChange={(event: any) => setSearchTerm(event.target.value)}
-            />
-          </ActionBar>
-        </Col>
-      </Row>
+      <ActionBar title="Manage News">
+        <Input
+          value={searchTerm}
+          placeholder="Search anything..."
+          style={{ maxWidth: "300px" }}
+          type="text"
+          size="large"
+          onChange={(event: any) => setSearchTerm(event.target.value)}
+        />
+        <div style={{ margin: "5px 0" }}>
+          <Link href="/dashboard/super_admin/manage-news/create">
+            <Button style={{ margin: "0 5px" }} type="primary">
+              Create News
+            </Button>
+          </Link>
+          {(searchTerm || sortBy || sortOrder) && (
+            <Button onClick={handleResetQuery} type="primary">
+              <ReloadOutlined />
+            </Button>
+          )}
+        </div>
+      </ActionBar>
+
       <div style={{ margin: "10px 0" }}>
         <UMTable
           loading={isLoading}
           columns={columns}
-          dataSource={data}
+          dataSource={fetchedData?.data}
           paginationOptions={paginationOptions}
           handleChangeTableOptions={handleChangeTableOptions}
           showPagination={true}
         />
       </div>
-
-      {forDeleteId ? (
+      {deleteId ? (
         <ConfirmationModal
           handleOk={handleOk}
           handleCancel={handleCancel}
           isModalOpen={isModalOpen}
-          title="Are you sure you want to delete the contact?"
-          description="If you delete the contact. You can't acccess to this contact later"
+          title="Are you sure you want to delete the news?"
+          description="If you delete the news. You can't acccess to this news later"
         />
       ) : null}
     </div>
   );
 };
 
-export default ManageContactPage;
+export default ManageNews;

@@ -61,7 +61,9 @@ const Navbar = () => {
       <Menu.Item className={styles["menu-item"]}>
         <Link href="/contact">Contact</Link>
       </Menu.Item>
-
+      <Menu.Item className={styles["menu-item"]}>
+        <Link href="/all-bus">Bus & Review</Link>
+      </Menu.Item>
       {isUserLoggedIn && (
         <Menu.Item className={styles["menu-item"]}>
           <Link href={`/dashboard/${role}`}>Dashboard</Link>

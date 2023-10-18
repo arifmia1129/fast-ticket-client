@@ -20,7 +20,7 @@ export default function Featured() {
     "https://www.shohoz.com/v2/assets/img/12.png",
   ];
   return (
-    <>
+    <div style={{ width: "95vw", margin: "auto" }}>
       <HeaderTitle
         title="We were featured on"
         subtitle="For our good work to make smart life with technology"
@@ -37,6 +37,6 @@ export default function Featured() {
           />
         ))}
       </Marquee>
-    </>
+    </div>
   );
 }
