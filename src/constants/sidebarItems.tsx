@@ -73,6 +73,11 @@ export const SidebarItems = (role: string) => {
       icon: <TableOutlined />,
       key: generateKey(role, "news"),
     },
+    {
+      label: <Link href={`/dashboard/${role}/manage-blog`}>Manage Blog</Link>,
+      icon: <TableOutlined />,
+      key: generateKey(role, "blog"),
+    },
   ];
 
   const adminSidebarItems: MenuProps["items"] = [
