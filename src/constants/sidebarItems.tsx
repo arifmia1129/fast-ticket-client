@@ -120,6 +120,11 @@ export const SidebarItems = (role: string) => {
       icon: <TableOutlined />,
       key: generateKey(role, "my-booked"),
     },
+    {
+      label: <Link href={`/dashboard/${role}/add-review`}>Add Review</Link>,
+      icon: <ThunderboltOutlined />,
+      key: generateKey(role, "add-review"),
+    },
   ];
 
   if (role === USER_ROLE.SUPER_ADMIN) return superAdminSidebarItems;

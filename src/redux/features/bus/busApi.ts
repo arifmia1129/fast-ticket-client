@@ -16,6 +16,18 @@ const busApi = baseApi.injectEndpoints({
       },
       invalidatesTags: [tagTypes.BUS],
     }),
+
+    addBusReview: build.mutation({
+      query: ({ id, data }: any) => ({
+        url: `${BUS_API}/review/${id}`,
+        method: "POST",
+        data: data,
+      }),
+      transformResponse: ({ data }) => {
+        return data;
+      },
+      invalidatesTags: [tagTypes.BUS],
+    }),
     deleteBus: build.mutation({
       query: (id: string) => ({
         url: `${BUS_API}/${id}`,
@@ -40,5 +52,9 @@ const busApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useCreateBusMutation, useGetBusQuery, useDeleteBusMutation } =
-  busApi;
+export const {
+  useCreateBusMutation,
+  useGetBusQuery,
+  useDeleteBusMutation,
+  useAddBusReviewMutation,
+} = busApi;

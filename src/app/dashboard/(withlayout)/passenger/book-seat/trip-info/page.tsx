@@ -8,7 +8,6 @@ import FormTextArea from "@/components/Forms/FormTextArea";
 import { superAdminItems } from "@/constants/breadCrumbItem";
 import { bloodGroupOptions, genderOptions } from "@/constants/global";
 
-import { adminSchema } from "@/schema/admin";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Button, Col, Row, message } from "antd";
 import { passengerRegistrationSchema } from "@/schema/passenger";
