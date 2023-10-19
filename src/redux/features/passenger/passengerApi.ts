@@ -51,7 +51,6 @@ const passengerApi = baseApi.injectEndpoints({
 });
 
 export const {
-  useCreatePassengerMutation,
   useGetPassengerQuery,
   useDeletePassengerMutation,
   useGetPassengerByIdQuery,

@@ -7,7 +7,7 @@ import { getBaseUrl } from "../config/envConfig";
 
 const axiosInstance = axios.create({
   baseURL: getBaseUrl(),
-  timeout: 1000,
+  timeout: 60000,
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
@@ -39,7 +39,7 @@ axiosInstance.interceptors.response.use(
   async function (error) {
     const config = error.config;
 
-    if (error.response.status === 403 && !config.sent) {
+    if (error?.response?.status === 403 && !config.sent) {
       config.sent = true;
       const res = await createNewAccessToken();
       const accessToken = res.data.data.accessToken;

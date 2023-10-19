@@ -8,7 +8,7 @@ const HomeCarousel = () => (
       <div>
         <Image
           style={{ minWidth: "100vw" }}
-          src="https://img.freepik.com/free-photo/senior-indian-couple_53876-15893.jpg"
+          src="https://img.freepik.com/free-photo/elegant-driver-sitting-shuttle-bus-smiling-camera-summer-day-front-view-happy-man_7502-10207.jpg"
           width={1200}
           height={500}
           alt="carousel image"
@@ -17,7 +17,16 @@ const HomeCarousel = () => (
       <div style={{ margin: "0 auto" }}>
         <Image
           style={{ minWidth: "100vw" }}
-          src="https://img.freepik.com/free-photo/close-up-hand-holding-plane-tickets_23-2149030545.jpg"
+          src="https://img.freepik.com/free-vector/passengers-waiting-bus-city-queue-town-road-flat-vector-illustration-public-transport-urban-lifestyle_74855-8493.jpg"
+          width={1200}
+          height={500}
+          alt="carousel image"
+        />
+      </div>
+      <div style={{ margin: "0 auto" }}>
+        <Image
+          style={{ minWidth: "100vw" }}
+          src="https://img.freepik.com/free-vector/passengers-waiting-bus-city-queue-town-road-flat-vector-illustration-public-transport-urban-lifestyle_74855-8493.jpghttps://img.freepik.com/free-vector/bus-stop-with-passengers-driver-inside_107791-15376.jpg"
           width={1200}
           height={500}
           alt="carousel image"

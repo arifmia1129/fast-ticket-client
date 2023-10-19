@@ -20,8 +20,6 @@ const EditTripPage = ({ params }: any) => {
 
   const { data: tripInfo } = useGetTripByIdQuery(params.id);
 
-  console.log(tripInfo);
-
   const { data } = useGetBusQuery({});
   const { data: bus } = data || {};
 

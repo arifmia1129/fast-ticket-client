@@ -78,7 +78,7 @@ const UpcomingServicesPage = () => {
                 <img
                   height={325}
                   alt="bus-ticket"
-                  src="http://localhost:3000/_next/image?url=https%3A%2F%2Fimg.freepik.com%2Ffree-photo%2Fsenior-indian-couple_53876-15893.jpg&w=1200&q=75"
+                  src="https://img.freepik.com/free-photo/close-up-hand-holding-plane-tickets_23-2149030545.jpg"
                 />
               }
             >

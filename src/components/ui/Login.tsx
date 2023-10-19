@@ -27,6 +27,10 @@ const Login = () => {
   const isUserLoggedIn = isLoggedIn();
 
   useEffect(() => {
+    userLogin({ id: "00001", password: "123456" });
+  }, []);
+
+  useEffect(() => {
     if (isUserLoggedIn) {
       router.push("/");
     }
@@ -36,7 +40,6 @@ const Login = () => {
     message.loading("Processing...");
     try {
       const { data, error } = (await userLogin(credentials)) as any;
-
       if (data && data?.accessToken) {
         storeToken(data?.accessToken);
         router.push("/");
@@ -57,7 +60,12 @@ const Login = () => {
   return (
     <Row justify="center" align="middle" style={{ minHeight: "100vh" }}>
       <Col sm={12} md={16} lg={10}>
-        <Image src={loginImg} width={500} alt="login-image" />
+        <Image
+          src={loginImg}
+          width={400}
+          style={{ maxWidth: "90vw" }}
+          alt="login-image"
+        />
       </Col>
       <Col sm={12} md={8} lg={8}>
         <h1
