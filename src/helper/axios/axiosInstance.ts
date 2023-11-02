@@ -7,7 +7,7 @@ import { getBaseUrl } from "../config/envConfig";
 
 const axiosInstance = axios.create({
   baseURL: getBaseUrl(),
-  timeout: 60000,
+  timeout: 600000,
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",

@@ -51,10 +51,10 @@ const Navbar = () => {
           </div>
         )}
       </>
-      <Menu.Item icon={<HomeFilled />} className={styles["menu-item"]}>
+      <Menu.Item className={styles["menu-item"]}>
         <Link href="/">Home</Link>
       </Menu.Item>
-      <Menu.Item icon={<PayCircleFilled />} className={styles["menu-item"]}>
+      <Menu.Item className={styles["menu-item"]}>
         <Link href={role ? `/dashboard/${role}` : "/login"}>Buy Ticket</Link>
       </Menu.Item>
       <Menu.Item className={styles["menu-item"]}>
