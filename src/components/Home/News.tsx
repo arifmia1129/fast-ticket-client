@@ -10,7 +10,7 @@ export default function News() {
   const { data } = useGetNewsQuery({});
 
   return (
-    <Row style={{ minWidth: "95vw", margin: "50px 0" }} justify={"center"}>
+    <Row style={{ minWidth: "95vw", marginTop: "100px" }} justify={"center"}>
       {data?.data?.map((item: any) => (
         <Col key={item?._id} xs={24} sm={24} md={8} lg={8}>
           <Card

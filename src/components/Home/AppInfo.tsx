@@ -9,7 +9,7 @@ const { Content } = Layout;
 const AppInfo = () => {
   return (
     <Layout>
-      <Content style={{ padding: "2%" }}>
+      <Content style={{ padding: "2%", marginTop: "80px" }}>
         <Row gutter={[16, 16]}>
           <Col xs={24} md={12}>
             <HeaderTitle

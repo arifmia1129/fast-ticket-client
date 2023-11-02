@@ -5,6 +5,7 @@ import { SidebarItems } from "@/constants/sidebarItems";
 import { getUserInfo } from "@/services/auth.service";
 import { USER_ROLE } from "@/constants/role";
 import type { MenuProps } from "antd";
+import { primaryColor } from "@/utils/color";
 
 const { Sider } = Layout;
 
@@ -35,6 +36,7 @@ const Sidebar = () => {
         left: 0,
         top: 0,
         bottom: 0,
+        backgroundColor: primaryColor,
       }}
     >
       <p
@@ -50,8 +52,7 @@ const Sidebar = () => {
       </p>
       {Array.isArray(menuItems) && menuItems.length && (
         <Menu
-          style={{ padding: 10 }}
-          theme="dark"
+          style={{ padding: 10, backgroundColor: primaryColor, color: "#fff" }}
           defaultSelectedKeys={["1"]}
           mode="inline"
           items={menuItems}

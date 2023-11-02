@@ -20,7 +20,7 @@ export default function Featured() {
     "https://www.shohoz.com/v2/assets/img/12.png",
   ];
   return (
-    <div style={{ width: "95vw", margin: "auto" }}>
+    <div style={{ width: "95vw", marginTop: "100px" }}>
       <HeaderTitle
         title="We were featured on"
         subtitle="For our good work to make smart life with technology"

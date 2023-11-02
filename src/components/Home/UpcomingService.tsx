@@ -9,7 +9,7 @@ const { Meta } = Card;
 const UpcomingServicesPage = () => {
   const router = useRouter();
   return (
-    <>
+    <div style={{ marginTop: "100px" }}>
       <HeaderTitle
         title="Our Upcoming Services"
         subtitle="To Make Your Life Better"
@@ -101,7 +101,7 @@ const UpcomingServicesPage = () => {
           </Col>
         </Row>
       </div>
-    </>
+    </div>
   );
 };
 

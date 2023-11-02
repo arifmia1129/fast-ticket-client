@@ -9,7 +9,7 @@ const { Meta } = Card;
 const Services = () => {
   const router = useRouter();
   return (
-    <>
+    <div style={{ marginTop: "100px" }}>
       <HeaderTitle
         title="Introducing you to the Fast way of life"
         subtitle="A one-stop solution for your travel needs"
@@ -42,7 +42,7 @@ const Services = () => {
           </Row>
         </Card>
       </Row>
-    </>
+    </div>
   );
 };
 
