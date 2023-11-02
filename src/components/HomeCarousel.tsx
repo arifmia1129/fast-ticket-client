@@ -8,27 +8,27 @@ const HomeCarousel = () => (
       <div>
         <Image
           style={{ minWidth: "100vw" }}
-          src="https://img.freepik.com/free-photo/elegant-driver-sitting-shuttle-bus-smiling-camera-summer-day-front-view-happy-man_7502-10207.jpg"
+          src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80&w=2069&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           width={1200}
-          height={500}
+          height={800}
           alt="carousel image"
         />
       </div>
       <div style={{ margin: "0 auto" }}>
         <Image
           style={{ minWidth: "100vw" }}
-          src="https://img.freepik.com/free-vector/passengers-waiting-bus-city-queue-town-road-flat-vector-illustration-public-transport-urban-lifestyle_74855-8493.jpg"
+          src="https://images.unsplash.com/photo-1598710877888-edaa20acfb92?auto=format&fit=crop&q=80&w=2062&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           width={1200}
-          height={500}
+          height={800}
           alt="carousel image"
         />
       </div>
       <div style={{ margin: "0 auto" }}>
         <Image
           style={{ minWidth: "100vw" }}
-          src="https://img.freepik.com/free-vector/passengers-waiting-bus-city-queue-town-road-flat-vector-illustration-public-transport-urban-lifestyle_74855-8493.jpghttps://img.freepik.com/free-vector/bus-stop-with-passengers-driver-inside_107791-15376.jpg"
+          src="https://images.unsplash.com/photo-1605068263928-dc295689add1?auto=format&fit=crop&q=80&w=1932&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           width={1200}
-          height={500}
+          height={800}
           alt="carousel image"
         />
       </div>
