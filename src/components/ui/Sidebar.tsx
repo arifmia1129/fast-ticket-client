@@ -6,7 +6,7 @@ import { getUserInfo } from "@/services/auth.service";
 import { USER_ROLE } from "@/constants/role";
 import type { MenuProps } from "antd";
 import { primaryColor } from "@/utils/color";
-
+import { CaretRightOutlined, CaretLeftOutlined } from "@ant-design/icons";
 const { Sider } = Layout;
 
 const Sidebar = () => {
@@ -23,6 +23,24 @@ const Sidebar = () => {
     }
   }, [menuItems, items, role]);
 
+  const customTrigger = (
+    <div
+      style={{
+        backgroundColor: primaryColor, // Set the background color here
+        padding: "10px",
+        textAlign: "center",
+        cursor: "pointer",
+      }}
+      onClick={() => setCollapsed(!collapsed)}
+    >
+      {collapsed ? (
+        <CaretRightOutlined style={{ color: "#fff" }} />
+      ) : (
+        <CaretLeftOutlined style={{ color: "#fff" }} />
+      )}
+    </div>
+  );
+
   return (
     <Sider
       collapsible
@@ -38,6 +56,7 @@ const Sidebar = () => {
         bottom: 0,
         backgroundColor: primaryColor,
       }}
+      trigger={customTrigger}
     >
       <p
         style={{

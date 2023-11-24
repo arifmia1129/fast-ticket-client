@@ -18,6 +18,7 @@ import {
 } from "@/redux/features/trip/tripApi";
 import { selectTripInfoSchema } from "@/schema/trip";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const TripInfoPage = () => {
   const router = useRouter();
@@ -64,6 +65,11 @@ const TripInfoPage = () => {
           <p style={{ fontSize: "20px", fontWeight: "bold" }}>
             Trip Information
           </p>
+          <Link href="/dashboard/passenger/book-seat/all-trip">
+            <Button style={{ margin: "10px 0" }} type="primary">
+              See All Trip
+            </Button>
+          </Link>
           <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
             <Col style={{ margin: "15px 0" }} className="gutter-row" span={24}>
               <div style={{ maxWidth: 500 }}>
