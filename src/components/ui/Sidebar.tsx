@@ -11,7 +11,9 @@ const { Sider } = Layout;
 
 const Sidebar = () => {
   const [menuItems, setMenuItems] = useState<MenuProps["items"]>([]);
-  const [collapsed, setCollapsed] = useState(true);
+  const [collapsed, setCollapsed] = useState(
+    typeof window !== "undefined" && window.innerWidth < 768
+  );
 
   const { role } = getUserInfo() as { role: string };
 
@@ -26,7 +28,7 @@ const Sidebar = () => {
   const customTrigger = (
     <div
       style={{
-        backgroundColor: primaryColor, // Set the background color here
+        backgroundColor: primaryColor,
         padding: "10px",
         textAlign: "center",
         cursor: "pointer",
@@ -40,6 +42,20 @@ const Sidebar = () => {
       )}
     </div>
   );
+
+  const handleWindowResize = () => {
+    setCollapsed(typeof window !== "undefined" && window.innerWidth < 768);
+  };
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.addEventListener("resize", handleWindowResize);
+
+      return () => {
+        window.removeEventListener("resize", handleWindowResize);
+      };
+    }
+  }, []);
 
   return (
     <Sider
